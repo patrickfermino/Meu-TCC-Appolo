@@ -1,0 +1,1 @@
+<!-- página referente a configuração dos portfólios dos artistas cadastrados na plataforma -->

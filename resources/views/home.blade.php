@@ -1,0 +1,1 @@
+<!-- Página home da aplicação, mostrando  um panorama geral sobre o que se trata a plataforma -->

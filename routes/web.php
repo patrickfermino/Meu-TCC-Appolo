@@ -20,5 +20,5 @@ Route::get('/login_interno', function () {
 
 
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 });
