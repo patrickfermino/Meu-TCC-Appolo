@@ -5,25 +5,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url('css/navbar.css') }}" />
-
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Medula+One&display=swap');
+    </style>
 
 </head>
-<body>
+<body class="body">
 
-<header class="header">
+<header>
 
-<a href="#home" class="logo"> Appolo
-    <span class="nomeheader"></span> 
-</a>
 
-<div class='bx bx-menu' id="menu-icon"></div>
 
-<nav class= "navbar"> 
-    <a href="#home" class ="active"> Home </a>
-    <a href="#portfolio">Artistas</a>
-    <a href="#loja">Pessoas</a>
+<!-- <div class='bx bx-menu' id="menu-icon"></div> -->
 
-</nav>
+    <nav class= "nav-bar"> 
+        <div class="logo"> 
+            <h1>  Appolo    </h1>
+        </div>
+    
+        <div class="nav-list">
+            <ul>
+                <li class="nav-item"> <a href="#" class="nav-link"> Home </a></li>
+                <li class="nav-item"> <a href="#" class="nav-link"> Artistas </a></li>
+                <li class="nav-item"> <a href="#" class="nav-link"> Solicitantes </a></li>
+            </ul>
+
+            <div class="login-button">
+                <button><a href="#">Login</a></button> 
+            </div>
+
+        </div>
+
+    </nav>
 </header>
 
 
