@@ -5,7 +5,7 @@
     <h2>Editar Categoria Artística</h2>
     
 
-    <form action="{{ route('categorias-artisticas.update', ['categorias_artistica' => $categoriaArtistica]) }}" method="POST">
+    <form action="{{ route('categorias-artisticas.update', $categoriaArtistica) }}" method="POST">
 
 
         @csrf
