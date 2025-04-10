@@ -1,17 +1,10 @@
 <?php
 
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\TipoUsuarioController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoriaArtisticaController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/login_interno', function () {
     return view('login_interno');
@@ -19,6 +12,15 @@ Route::get('/login_interno', function () {
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/categorias_artisticas', function () {
+//     return view('categorias_artisticas.index', compact('categorias'));
+// });
+
+
+
+Route::resource('categorias-artisticas', CategoriaArtisticaController::class)->parameters([
+    'categorias-artisticas' => 'categoriaArtistica'
+]);
+
+
+Route::resource('usuarios', UsuarioController::class);

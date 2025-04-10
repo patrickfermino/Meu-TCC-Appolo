@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('documento')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('codigo_email')->nullable(); 
             $table->unsignedBigInteger('sexo_usuario')->nullable();
             $table->foreign('sexo_usuario')-> references('id')->on('sexo_usuario')->onDelete('cascade');
             $table->string('senha');

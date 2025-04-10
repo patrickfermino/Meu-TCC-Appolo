@@ -1,6 +1,49 @@
-.navbar_appolo{
-    font-family: "Medula One" system-ui !important;
-    font-weight: 400 !important;
-    font-style: normal;
 
-}
+    .header{
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        padding: 1rem 15%;
+        background: rgb(211, 207, 207);
+        backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .navbar a{
+        font-size: 2rem !important;
+        color: rgb(131, 79, 131);
+        margin-left: 7rem;
+        font-weight: 200;
+        transition: 0.3s ease-in-out;
+        border-bottom: 2px solid transparent;
+    }
+
+
+    
+    #menu-icon{
+        font-size: rem;
+        color: var(--text-color);
+        display: none;
+    }
+    
+    .logo{
+        font-size: 3rem !important;
+        color: var(--text-color);
+        font-weight: 800;
+        cursor: pointer;
+        transition: 0.3s ease-in-out;
+    }
+    
+    .logo:hover{
+        transform: scale(1.1);
+    }
+    
+    
+    .logo,.nomeheader{
+        font-size: 2rem;
+        letter-spacing: 3px;
+    }

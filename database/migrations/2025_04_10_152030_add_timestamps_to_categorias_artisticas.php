@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sexo_usuario', function (Blueprint $table) {
-            $table->id();
-            $table->string('nome');
+        Schema::table('categorias_artisticas', function (Blueprint $table) {
+            $table->timestamps();
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('categorias_artisticas', function (Blueprint $table) {
+            $table->dropTimestamps();
+        });
     }
 };

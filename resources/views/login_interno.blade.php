@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="{{url('css/login_interno.css') }}" />
  
 </head>
+ 
+<x-navbar>
+
+</x-navbar>
+
 
 <div class="background">
     <div class="card">
