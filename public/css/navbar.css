@@ -1,9 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Medula+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 
+
+
+.login-button {
+    background-color: #9b63e4;
+    color: antiquewhite;
+    font-size: 15px;
+    padding: 8px 20px;
+    border-radius: 25px ;
+    text-decoration: none;
+    transition: 0.3s background-color;
+}
+
+.login-button:hover {
+    background-color: #ab7aeb;
+}
+
+.navbar-toggler {
+    border: none !important;
+    font-size: 1.25rem !important;
+}
+
+.navbar-toggler:focus, .btn-close:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+
+
+/*
 
 .body{
     padding: 0 !important;
     margin: 0 !important;
+    font-family: "Jost", sans-serif !important;
     
  }
 
@@ -16,7 +47,8 @@ header{
 .nav-bar {
     display: flex!important;
     justify-content: space-between!important;
-    padding: 1.5rem 6rem!important;
+    color: #7000FF;
+    /* padding: 1.5rem 6rem!important; 
 }
 
 
@@ -26,6 +58,7 @@ header{
     font-family: 'Medula one' !important ;
     font-size: 2rem !important;
     color : #7000FF; 
+    font-family: 'Medula one' !important ;
 } 
 
 
@@ -36,7 +69,6 @@ header{
 .nav-list {
     display: flex;
     align-items: center;
-    font-family: 'Medula one' !important ;
     font-size: 3rem; 
 }
 
@@ -45,3 +77,14 @@ header{
     justify-content: center;
     list-style: none;
 }
+
+.nav-item {
+    margin: 0 15px;
+}
+
+.nav-link { 
+    text-decoration: none;
+    font-size: 1.15rem;
+}
+
+*/

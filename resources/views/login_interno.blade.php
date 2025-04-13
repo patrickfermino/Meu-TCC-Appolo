@@ -8,10 +8,6 @@
  
 </head>
  
-<x-navbar>
-
-</x-navbar>
-
 
 <div class="background">
     <div class="card">

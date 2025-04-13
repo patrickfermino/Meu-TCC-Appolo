@@ -12,6 +12,12 @@ Route::get('/login_interno', function () {
 
 
 
+Route::get('/home', function () {
+    return view('home');
+});
+
+
+
 // Route::get('/categorias_artisticas', function () {
 //     return view('categorias_artisticas.index', compact('categorias'));
 // });
@@ -24,3 +30,5 @@ Route::resource('categorias-artisticas', CategoriaArtisticaController::class)->p
 
 
 Route::resource('usuarios', UsuarioController::class);
+
+
