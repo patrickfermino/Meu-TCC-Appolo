@@ -2,8 +2,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 
 
+.navbar {
+    background-color: rgb(248, 240, 250);
+    height: 80px;
+    margin: 15px;
+    padding: 1rem !important;
+    border-radius: 15px;
+}
 
-.login-button {
+.navbar-brand {
+    color : #432964; 
+    font-family: 'Medula one' !important ;
+    font-size: 2.5rem !important;
+    border-left: 100px !important;
+    transition: 0.3s    color;
+}
+
+.navbar-brand:hover {
+    color: #7e54b4 !important;
+}
+
+.login-button { 
     background-color: #9b63e4;
     color: antiquewhite;
     font-size: 15px;
@@ -27,64 +46,55 @@
     outline: none !important;
 }
 
-
-
-/*
-
-.body{
-    padding: 0 !important;
-    margin: 0 !important;
+.nav-link {
+    color: #544468 !important;
+    font-weight: 500 !important;
+    position: relative !important; 
     font-family: "Jost", sans-serif !important;
-    
- }
-
-
-header{
-    background-color: rgb(213, 208, 218) !important;
-    box-shadow: 0px 3px 10px grey !important;
+    font-size: 1.2rem !important;
 }
 
-.nav-bar {
-    display: flex!important;
-    justify-content: space-between!important;
-    color: #7000FF;
-    /* padding: 1.5rem 6rem!important; 
+.nav-link:hover , .nav-link:active {
+    color: rgb(56, 35, 65) !important;
 }
 
-
-.logo {
-    display: flex!important;
-    align-items: center!important;
+.offcanvas-title {
+    color : #40364e; 
     font-family: 'Medula one' !important ;
-    font-size: 2rem !important;
-    color : #7000FF; 
-    font-family: 'Medula one' !important ;
-} 
-
-
-.logo h1 {
-    color: #7000FF;
+    font-size: 2.5rem !important;
+    border-left: 100px !important;
+    transition: 0.3s    color;
 }
 
-.nav-list {
-    display: flex;
-    align-items: center;
-    font-size: 3rem; 
+
+
+@media (min-width: 990px) {
+    .nav-link::before{
+        content: "" !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 0 !important;
+        height: 2px !important;
+        background-color: #ab7aeb !important;
+        visibility: hidden !important;
+        transition: 0.3s ease-in-out !important;
+    }
+
+    .nav-link:hover::before, .nav-link.active::before {
+        width: 100% !important;
+        visibility: visible !important;
+    }
+
+  
 }
 
-.nav-list ul {
-    display: flex;
-    justify-content: center;
-    list-style: none;
+@media screen and (max-width: 991px) {
+
+    .navbar {
+        padding: 0.3rem !important;
+    }
 }
 
-.nav-item {
-    margin: 0 15px;
-}
 
-.nav-link { 
-    text-decoration: none;
-    font-size: 1.15rem;
-}
-
-*/
