@@ -18,6 +18,11 @@ Route::get('/home', function () {
 
 
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
 // Route::get('/categorias_artisticas', function () {
 //     return view('categorias_artisticas.index', compact('categorias'));
 // });
