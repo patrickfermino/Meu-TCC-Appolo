@@ -1,18 +1,19 @@
-/* 
 
-.banner {
-    background-size: cover !important;
-    width: 100% !important;
-    height: 100% !important;
-}
 
-.imagem {
-    max-height: 1200px;
-    padding-top: 50px ;
-}
-
-.container .imagem {
-    height: 100vh;
-    z-index: 1;
-    position: relative;
-} */
+  .hero-section {
+    min-height: 90vh !important; 
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  .hero-text {
+    color: var(--roxo-appolo) !important;
+    font-weight: bold !important;
+    font-size: 2rem !important;
+  }
+  
+  .big-btn {
+    margin: 20px !important;
+    font-size: 2rem !important ;
+    padding: 25px  !important;
+  } 

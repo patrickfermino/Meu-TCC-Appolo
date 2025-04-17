@@ -2,19 +2,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 
 
+:root {
+    --roxo-appolo: #7700ff;
+    --roxo-claro: #9f58ff;
+    --branco: #fff;
+  }
+
+
+
+  
 .navbar {
     background-color: rgb(248, 240, 250);
-    height: 80px;
-    margin: 15px;
+    height: 100px;
+    /* margin: 15px;
     padding: 1rem !important;
-    border-radius: 15px;
+    border-radius: 15px; */
 }
 
 .navbar-brand {
-    color : #432964; 
+    color : #7000FF !important; 
     font-family: 'Medula one' !important ;
-    font-size: 2.5rem !important;
+    font-size: 4rem !important;
     border-left: 100px !important;
+    padding: 50px !important;
     transition: 0.3s    color;
 }
 
@@ -30,6 +40,7 @@
     border-radius: 25px ;
     text-decoration: none;
     transition: 0.3s background-color;
+    border: 50px !important;
 }
 
 .login-button:hover {
@@ -59,12 +70,69 @@
 }
 
 .offcanvas-title {
-    color : #40364e; 
+    color : #7000FF; 
     font-family: 'Medula one' !important ;
     font-size: 2.5rem !important;
     border-left: 100px !important;
     transition: 0.3s    color;
 }
+
+
+.btn-outline-custom {
+    border: 2px solid #7000FF !important;
+    color: var(--roxo-appolo) !important;
+    border-radius: 20px !important;
+    padding: 6px 18px !important;
+    font-weight: 500 !important;
+  }
+  
+  .btn-outline-custom:hover {
+    background-color: #7000FF !important;
+    color: var(--branco) !important;
+  }
+  
+  .btn-primary-custom {
+    background-color: #7000FF !important;
+    border: none !important;
+    color: white !important;
+    border-radius: 20px !important;
+    padding: 8px 18px !important;
+    font-weight: 500 !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+  }
+  
+  .btn-primary-custom:hover {
+    background-color: var(--roxo-claro) !important ;
+  }
+
+
+#li-nav {
+    list-style-type: none !important; 
+    padding-right: 20px !important;
+    
+}
+
+.nav-item {
+    bottom: 0 !important;
+    padding-top: 20px !important;
+}
+
+
+.footer-custom {
+    background-color: var(--roxo-appolo) !important ;
+    color: var(--branco) !important;
+  }
+  
+  .footer-custom i {
+    color: white !important;
+    transition: 0.3s !important;
+  }
+  
+  .footer-custom i:hover {
+    color: var(--roxo-claro) !important;
+  }
+  
+
 
 
 
@@ -94,7 +162,19 @@
 
     .navbar {
         padding: 0.3rem !important;
+
     }
+
+    .navbar-brand {
+        padding: 5px !important;
+        padding-left: 20px !important;
+    }
+
+    
+#li-nav {
+  border-bottom: 60px !important;
+  padding-bottom: 20px !important;
+}
 }
 
 

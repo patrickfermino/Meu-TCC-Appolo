@@ -13,7 +13,27 @@
 <head> 
 
 
-<section class="banner" style= no-repeat center > 
+<main>
+  <!-- Hero Section -->
+  <section class="hero-section d-flex align-items-center">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 text-left align-items-center ">
+          <h2 class="hero-text mb-4">
+            Cadastre-se agora e permita que sua criatividade seja livre,
+            pois cada traço, cor e ideia que você expressa tem o poder de inspirar o mundo.
+          </h2>
+          <a class="btn btn-primary-custom big-btn "  href="#"> Contrate um artista !</a>
+        </div>
+        <div class="col-md-6 text-center">
+          <img src="imgs/banner.jpg" alt="Background" class="img-fluid" style="max-height: 700px;" />
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+</main>
 
 
 </section> 
