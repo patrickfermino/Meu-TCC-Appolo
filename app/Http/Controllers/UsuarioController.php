@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use App\Models\TipoUsuario;
+use Illuminate\Support\Facades\Hash;
+
 
 class UsuarioController extends Controller
 {
@@ -27,29 +29,49 @@ class UsuarioController extends Controller
         return view('usuarios.create', compact('tipos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function createArtista() {
+        return view('usuarios.cadastro_artista');
+    }
+    
+    public function createContratante() {
+        return view('usuarios.cadastro_contratante');
+    }
+    
+
+    public function storeArtista(Request $request)
+    {
+        return $this->storeWithTipo($request, 2); // 2 = artista
+    }
+    
+    public function storeContratante(Request $request)
+    {
+        return $this->storeWithTipo($request, 3); // 3 = contratante
+    }
+    
+    private function storeWithTipo(Request $request, $tipoUsuario)
     {
         $validated = $request->validate([
-            'nome' => 'required|string',
+            'nome' => 'required|string|max:200',
             'documento' => 'required|string|unique:usuarios',
             'email' => 'required|email|unique:usuarios',
             'senha' => 'required|min:6',
-            'tipo_usuario' => 'nullable|exists:tipo_usuario,id',
+            'data_nasc' => 'required|date',
+            'sexo_usuario' => 'required|integer',
         ]);
     
-        $validated['senha'] = bcrypt($validated['senha']);
+        $usuario = new Usuario();
+        $usuario->fill($request->except('senha'));
+        $usuario->senha = Hash::make($request->senha);
+        $usuario->tipo_usuario = $tipoUsuario; 
+        $usuario->save();
     
-        Usuario::create($validated);
+        $token = $usuario->createToken('token')->plainTextToken;
     
-        return redirect()->route('usuarios.index')->with('success', 'Usuário cadastrado com sucesso!');
+        return redirect()->route('home')->with('success', 'Usuário criado com sucesso!');
     }
+    
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
         //

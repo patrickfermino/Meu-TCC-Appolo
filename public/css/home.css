@@ -17,3 +17,24 @@
     font-size: 2rem !important ;
     padding: 25px  !important;
   } 
+
+
+  @media screen and (max-width: 991px) {
+
+    .hero-text {
+      padding-top: 50px!important;
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+      font-size: 1.5rem!important;
+    }
+    
+    .col-md-6 {
+      text-align: center !important; 
+    }
+
+    .big-btn {
+  
+      font-size: 1.5rem !important ;
+
+    } 
+  }

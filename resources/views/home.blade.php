@@ -23,7 +23,7 @@
             Cadastre-se agora e permita que sua criatividade seja livre,
             pois cada traço, cor e ideia que você expressa tem o poder de inspirar o mundo.
           </h2>
-          <a class="btn btn-primary-custom big-btn "  href="#"> Contrate um artista !</a>
+          <a class="btn btn-primary-custom big-btn mx-auto w-auto "  href="#"> Contrate um artista !</a>
         </div>
         <div class="col-md-6 text-center">
           <img src="imgs/banner.jpg" alt="Background" class="img-fluid" style="max-height: 700px;" />

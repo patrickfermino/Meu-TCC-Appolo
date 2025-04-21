@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('nome');
             $table->string('documento')->unique();
             $table->string('email')->unique();
@@ -31,6 +30,7 @@ return new class extends Migration
             $table->string('endereco')->nullable();
             $table->string('cidade')->nullable();
             $table->softDeletes();
+            $table->timestamps();
             //incluir coluna de feedback -> padrao 5
 
         });
