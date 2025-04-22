@@ -1,3 +1,5 @@
+
+
 @import url('https://fonts.googleapis.com/css2?family=Medula+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 
@@ -9,10 +11,157 @@
   }
 
 
-
+.hero-section {
+    min-height: 100vh !important; 
+    display: flex !important;
+    align-items: center !important;
+  }
   
+
+.cadastro-container {
+    display: flex;
+    min-height: 100vh !important; 
+
+}
+
+.left-illustration {
+    flex: 1;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-illustration img {
+    max-width: 70%;
+    padding-top: 60px !important;
+    height: auto;
+}
+
+
+
+.form-section {
+    flex: 1;
+    background-color: var(--roxo-appolo);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 50px;
+    max-width: 600px !important;
+}
+
+.form-title {
+    font-size: 36px;
+    margin-bottom: 15px;
+    margin-top: 50px ;
+    font-weight: bold;
+    text-align: center;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="date"],
+form input[type="password"] {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border: 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    
+}
+
+.gender-options {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.gender-options label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.submit-btn {
+    width: 100% !important;
+    padding: 14px;
+    font-size: 16px;
+    background: white;
+    color: #8000ff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: 0.3s ;
+}
+
+.submit-btn:hover {
+    color: #eee8f7 !important;
+    background: #9357cf;
+    border: var(--branco) !important;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px; 
+    margin-top: 20px;
+}
+
+.cadastro-button {
+    width: 220px !important;
+    border: 15px !important;
+    padding: 10px !important;
+    border-radius: 30px !important;
+    background-color: white;
+    color: var(--roxo-appolo);
+    font-weight: bold;
+    font-size: 15px;
+    transition: 0.3s ;
+}
+
+.cadastro-button:hover {
+    color: #eee8f7 !important;
+    background: #9357cf;
+    border: var(--branco) !important;
+}
+
+
+.login-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.login-link a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.footer-custom {
+    background-color: var(--roxo-appolo) !important ;
+    color: var(--branco) !important;
+  }
+  
+  .footer-custom i {
+    color: white !important;
+    transition: 0.3s !important;
+  }
+  
+  .footer-custom i:hover {
+    color: var(--roxo-claro) !important;
+  }
+  
+
+
+    
 .navbar {
-    background-color: white !important; 
+    background-color: rgb(248, 240, 250) !important;
     height: 100px !important;
     /* margin: 15px;
     padding: 1rem !important;
@@ -112,6 +261,14 @@
     
 }
 
+#formulario-login {
+    font-family: "Jost", sans-serif !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
 .nav-item {
     bottom: 0 !important;
     padding-top: 20px !important;
@@ -170,10 +327,15 @@
         padding-left: 20px !important;
     }
 
+    .left-illustration {
+        display: none !important;
+    }
+
     
 #li-nav {
   border-bottom: 60px !important;
   padding-bottom: 20px !important;
+
 }
 }
 

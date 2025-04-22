@@ -15,11 +15,11 @@
 
     <main class="cadastro-container ">
         <div class="left-illustration">
-            <img src="{{ asset('imgs/artistacadastro.jpg') }}" alt="Ilustração Artista">
+            <img src="{{ asset('imgs/contratante.jpg') }}" alt="Ilustração Artista">
         </div>
-        <div class="form-section">
-            <h1 class="form-title">Artista</h1>
-            <form action="{{ route('usuarios.storeArtista') }}" method="POST">
+        <div class="form-section"  id="formulario-login" >
+            <h1 class="form-title">Cadastrar-se como solicitante</h1>
+            <form action="{{ route('usuarios.storeContratante') }}" method="POST">
                 @csrf
 
                 <input type="text" name="nome" placeholder="Nome" required>

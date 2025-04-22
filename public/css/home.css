@@ -1,3 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Medula+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+:root {
+    --roxo-appolo: #7700ff;
+    --roxo-claro: #9f58ff;
+    --branco: #fff;
+  }
+
+
 
 
   .hero-section {

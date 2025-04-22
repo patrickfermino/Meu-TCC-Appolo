@@ -67,7 +67,7 @@ class UsuarioController extends Controller
     
         $token = $usuario->createToken('token')->plainTextToken;
     
-        return redirect()->route('home')->with('success', 'Usuário criado com sucesso!');
+        return redirect()->route('login')->with('success', 'Usuário criado com sucesso!');
     }
     
 

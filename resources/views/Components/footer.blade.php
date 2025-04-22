@@ -1,0 +1,19 @@
+
+<link  href="css/navbar.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+<footer class="footer-custom py-4 text-center">
+    <div class="container d-flex justify-content-center gap-4 mb-2">
+      <i class="bi bi-instagram fs-4"></i>
+      <i class="bi bi-envelope fs-4"></i>
+      <i class="bi bi-linkedin fs-4"></i>
+    </div>
+    <p class="small mb-0 text-white">
+      &copy; 2025 Appolo - Todos os direitos reservados.
+    </p>
+  </footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">

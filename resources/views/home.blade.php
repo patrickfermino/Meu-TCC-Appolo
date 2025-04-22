@@ -14,7 +14,6 @@
 
 
 <main>
-  <!-- Hero Section -->
   <section class="hero-section d-flex align-items-center">
     <div class="container">
       <div class="row align-items-center">
@@ -35,6 +34,7 @@
   </section>
 </main>
 
+@include('Components.footer')
 
 </section> 
 
