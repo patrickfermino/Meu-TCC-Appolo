@@ -17,7 +17,9 @@
         <div class="left-illustration">
             <img src="{{ asset('imgs/artistacadastro.jpg') }}" alt="Ilustração Artista">
         </div>
-        <div class="form-section">
+
+        <div class="form-section" >
+        
             <h1 class="form-title">Artista</h1>
             <form action="{{ route('usuarios.storeArtista') }}" method="POST">
                 @csrf

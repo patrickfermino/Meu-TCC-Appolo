@@ -33,7 +33,7 @@
 }
 
 .left-illustration img {
-    max-width: 70%;
+    max-width: 60%;
     padding-top: 60px !important;
     height: auto;
 }
@@ -43,8 +43,10 @@
 .form-section {
     flex: 1;
     background-color: var(--roxo-appolo);
-    color: #fff;
+    background-size: cover !important;
+    color: white;
     display: flex;
+    background-repeat: no-repeat;
     flex-direction: column;
     justify-content: center;
     padding: 60px 50px;
@@ -161,7 +163,7 @@ form input[type="password"] {
 
     
 .navbar {
-    background-color: rgb(248, 240, 250) !important;
+    background-color: none !important;
     height: 100px !important;
     /* margin: 15px;
     padding: 1rem !important;
