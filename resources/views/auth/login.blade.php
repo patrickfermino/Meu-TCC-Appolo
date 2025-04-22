@@ -9,12 +9,14 @@
 
 
 </head>
+
 @include('Components.navbarbootstrap')
 
 <main class="cadastro-container ">
         <div class="left-illustration">
             <img src="{{ asset('imgs/cadastre.jpg') }}" alt="Ilustração Artista">
         </div>
+        
         <div class="form-section" id="formulario-login" >
         <h2>Login</h2>
         @if (session('success'))
@@ -52,6 +54,7 @@
 </main>
 
     @include('Components.footer')
-
+ 
+     
 
 </html>

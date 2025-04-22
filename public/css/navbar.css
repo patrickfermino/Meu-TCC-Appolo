@@ -121,6 +121,7 @@
 .footer-custom {
     background-color: var(--roxo-appolo) !important ;
     color: var(--branco) !important;
+    display : block  !important; 
   }
   
   .footer-custom i {
@@ -168,6 +169,7 @@
     .navbar-brand {
         padding: 5px !important;
         padding-left: 20px !important;
+        color: white !important;
     }
 
     
