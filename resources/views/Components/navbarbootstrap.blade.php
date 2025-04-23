@@ -37,9 +37,26 @@
         
   <div class="d-flex justify-content-end gap-2 mt-auto position-relative bottom-0 end-0 p-3">
 
-    <li class="botao-nav" id="li-nav" ><a class="btn btn-primary-custom ms-3" href="{{ route('usuarios.createArtista') }}">Cadastrar-se</a></li>
-   
-    <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3 " href="{{ route('login') }}">Entrar</a></li>
+  @auth
+
+  <div class="dropdown ms-3">
+    <button class="btn btn-primary-custom dropdown-toggle" type="button" id="dropdownProfile" data-bs-toggle="dropdown" aria-expanded="false">
+      {{ Auth::user()->nome }}
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownProfile">
+      <li><a class="dropdown-item" href="{{ route('perfil') }}">Perfil</a></li>
+      <li>
+        <form action="{{ route('logout') }}" method="POST">
+          @csrf
+          <button class="dropdown-item" type="submit">Logout</button>
+        </form>
+      </li>
+    </ul>
+  </div>
+@else
+  <li class="botao-nav" id="li-nav"><a class="btn btn-outline-custom ms-3" href="{{ route('register') }}">Cadastrar-se</a></li>
+  <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3" href="{{ route('login') }}">Entrar</a></li>
+@endauth
 
 </div> 
 
@@ -68,10 +85,6 @@
 
 
 
-
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">

@@ -49,4 +49,10 @@ class Usuario extends Authenticatable
         return $this->belongsTo(SexoUsuario::class, 'sexo_usuario');
     }
 
+    
+    public function getAuthPassword()
+    {
+        return $this->senha;
+    }
+
 }

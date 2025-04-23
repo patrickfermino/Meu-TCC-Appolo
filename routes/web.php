@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaArtisticaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\TipoUsuarioController;
+use Illuminate\Support\Facades\Auth;
+
+
 
 Route::get('/login', function () {
     return view('auth/login');
@@ -15,6 +18,10 @@ Route::get('/login_interno', function () {
 });
 
 Route::get('/home', function () {
+    return view('home');
+});
+
+Route::get('/', function () {
     return view('home');
 });
 
@@ -46,5 +53,14 @@ Route::post('/cadastro/contratante', [UsuarioController::class, 'storeContratant
 Route::post('/usuarios/artista', [UsuarioController::class, 'storeArtista'])->name('usuarios.storeArtista');
 Route::post('/usuarios/contratante', [UsuarioController::class, 'storeContratante'])->name('usuarios.storeContratante');
 
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/perfil', [UsuarioController::class, 'perfil'])->name('perfil');
+});
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
 
 require __DIR__.'/auth.php';

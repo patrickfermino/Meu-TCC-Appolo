@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Usuario;
 use App\Models\TipoUsuario;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 
 class UsuarioController extends Controller
@@ -70,6 +71,13 @@ class UsuarioController extends Controller
         return redirect()->route('login')->with('success', 'Usuário criado com sucesso!');
     }
     
+
+
+    public function perfil()
+{
+    $usuario = Auth::user(); 
+    return view('usuarios.perfil', compact('usuario'));
+}
 
 
     public function show(string $id)
