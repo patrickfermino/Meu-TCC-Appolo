@@ -54,7 +54,7 @@
     </ul>
   </div>
 @else
-  <li class="botao-nav" id="li-nav"><a class="btn btn-outline-custom ms-3" href="{{ route('register') }}">Cadastrar-se</a></li>
+  <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3" href="{{ route('register') }}">Cadastrar-se</a></li>
   <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3" href="{{ route('login') }}">Entrar</a></li>
 @endauth
 
