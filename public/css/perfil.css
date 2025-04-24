@@ -1,0 +1,442 @@
+@import url('https://fonts.googleapis.com/css2?family=Medula+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+:root {
+    --roxo-appolo: #5200ff;
+    --roxo-claro: #935dff;
+    --branco: #ffffff;
+    --preto: #000000;
+    --cinza-claro: #f5f5f5;
+    --cinza-medio: #e0e0e0;
+    --cinza-escuro: #666666;
+  }
+  
+
+  .container {
+    padding-top: 120px !important;
+  }
+
+  .text-primary {
+    color: var(--roxo-appolo) !important;
+  }
+  
+  .bg-primary {
+    background-color: var(--roxo-appolo) !important;
+  }
+  
+  /* Perfil */
+  .profile-img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+  }
+  
+  .social-icons a {
+    transition: transform 0.3s ease;
+    color: var(--roxo-appolo) !important;
+  }
+  
+  .social-icons a:hover {
+    transform: translateY(-3px);
+    color: var(--roxo-claro) !important;
+  }
+  
+  /* Galeria */
+  .gallery-img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+  
+  .gallery-img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  }
+  
+/* Modal de Imagem - Estilos Responsivos */
+#imageModal .modal-dialog {
+    max-width: 90vw;
+    margin: 1rem auto;
+  }
+  
+  #imageModal .modal-content {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  #imageModal .modal-body {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+  }
+  
+  /* Container da imagem principal */
+  .image-main-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: #f1f1f1;
+    position: relative;
+    max-height: 70vh;
+    overflow: hidden;
+  }
+  
+  /* Imagem principal - mantém proporção e tamanho máximo */
+  #modalImage {
+    max-width: 100%;
+    max-height: 65vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    display: block;
+    margin: 0 auto;
+  }
+  
+  /* Controles de navegação */
+  .image-nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--roxo-appolo);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    z-index: 10;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+  }
+  
+  .image-nav-button:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  .image-nav-button.prev {
+    left: 20px;
+  }
+  
+  .image-nav-button.next {
+    right: 20px;
+  }
+  
+  /* Info do artista */
+  .artist-info-container {
+    padding: 1.5rem;
+    background: white;
+    border-top: 1px solid #eee;
+  }
+  
+  /* Miniaturas (opcional) */
+  .image-thumbnails {
+    display: flex;
+    gap: 10px;
+    padding: 1rem;
+    overflow-x: auto;
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
+  }
+  
+  .thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+  
+  .thumbnail:hover, .thumbnail.active {
+    border-color: var(--roxo-appolo);
+    transform: scale(1.05);
+  }
+  
+  /* Ajustes para mobile */
+  @media (max-width: 768px) {
+    #imageModal .modal-dialog {
+      margin: 0.5rem auto;
+      max-width: 95vw;
+    }
+    
+    .image-main-container {
+      padding: 1rem;
+      max-height: 50vh;
+    }
+    
+    #modalImage {
+      max-height: 45vh;
+    }
+    
+    .image-nav-button {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .artist-info-container {
+      padding: 1rem;
+    }
+  }
+  
+  /* Animações */
+  .fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .slide-up {
+    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  @keyframes slideUp {
+    from { 
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to { 
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .profile-img {
+      width: 120px;
+      height: 120px;
+    }
+    
+    #imageModal .modal-dialog {
+      margin: 0.5rem;
+    }
+    
+    #imageModal .modal-content {
+      height: calc(100vh - 1rem);
+    }
+    
+    #imageModal .modal-body {
+      overflow-y: auto;
+      max-height: calc(100vh - 120px);
+    }
+    
+    .btn-outline-custom,
+    .btn-primary-custom {
+      padding: 6px 15px;
+      font-size: 0.9rem;
+    }
+  }
+/* Estilo para a versão com tags */
+.btn-check:checked + .btn-outline-custom {
+  background-color: var(--roxo-appolo);
+  color: white;
+}
+
+#categorias-container {
+  margin-top: 0.5rem;
+}
+/* Melhora o espaçamento entre os itens */
+.form-check {
+  margin-bottom: 0.5rem;
+  min-width: 120px;
+}
+
+
+
+
+
+:root {
+    --roxo-appolo: #7700ff;
+    --roxo-claro: #9f58ff;
+    --branco: #fff;
+    --preto: #000000;
+    --cinza-claro: #f5f5f5;
+    --cinza-medio: #e0e0e0;
+    --cinza-escuro: #666666;
+  }
+
+
+
+  
+.navbar {
+    background-color: none !important; 
+    height: 100px !important;
+    /* margin: 15px;
+    padding: 1rem !important;
+    border-radius: 15px; */
+}
+
+.navbar-brand {
+    color : #7000FF !important; 
+    font-family: 'Medula one' !important ;
+    font-size: 4rem !important;
+    border-left: 100px !important;
+    padding: 50px !important;
+    transition: 0.3s    color;
+}
+
+.navbar-brand:hover {
+    color: #7e54b4 !important;
+}
+
+.login-button { 
+    background-color: #9b63e4 !important;
+    color: antiquewhite !important;
+    font-size: 15px !important;
+    padding: 8px 20px !important;
+    border-radius: 25px  !important;
+    text-decoration: none !important;
+    transition: 0.3s background-color !important;
+    border: 50px !important;
+}
+
+.login-button:hover {
+    background-color: #ab7aeb !important;
+}
+
+.navbar-toggler {
+    border: none !important;
+    font-size: 1.25rem !important;
+}
+
+.navbar-toggler:focus, .btn-close:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.nav-link {
+    color: #544468 !important;
+    font-weight: 500 !important;
+    position: relative !important; 
+    font-family: "Jost", sans-serif !important;
+    font-size: 1.2rem !important;
+}
+
+/* .nav-link:hover {
+    color: rgb(56, 35, 65) !important;
+} */
+
+.offcanvas-title {
+    color : #7000FF; 
+    font-family: 'Medula one' !important ;
+    font-size: 2.5rem !important;
+    border-left: 100px !important;
+    transition: 0.3s    color;
+}
+
+
+.btn-outline-custom {
+    border: 2px solid #7000FF !important;
+    color: var(--roxo-appolo) !important;
+    border-radius: 20px !important;
+    padding: 6px 18px !important;
+    font-weight: 500 !important;
+  }
+  
+  .btn-outline-custom:hover {
+    background-color: #7000FF !important;
+    color: var(--branco) !important;
+  }
+  
+  .btn-primary-custom {
+    background-color: #7000FF !important;
+    border: none !important;
+    color: white !important;
+    border-radius: 20px !important;
+    padding: 8px 18px !important;
+    font-weight: 500 !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+  }
+  
+  .btn-primary-custom:hover {
+    background-color: var(--roxo-claro) !important ;
+  }
+
+
+#li-nav {
+    list-style-type: none !important; 
+    padding-right: 20px !important;
+    
+}
+
+.nav-item {
+    bottom: 0 !important;
+    padding-top: 20px !important;
+}
+
+
+.footer-custom {
+    background-color: var(--roxo-appolo) !important ;
+    color: var(--branco) !important;
+    display : block  !important; 
+  }
+  
+  .footer-custom i {
+    color: white !important;
+    transition: 0.3s !important;
+  }
+  
+  .footer-custom i:hover {
+    color: var(--roxo-claro) !important;
+  }
+  
+
+
+
+
+@media (min-width: 990px) {
+    .nav-link::before{
+        content: "" !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 0 !important;
+        height: 2px !important;
+        background-color: #ab7aeb !important;
+        visibility: hidden !important;
+        transition: 0.3s ease-in-out !important;
+    }
+
+    .nav-link:hover::before, .nav-link.active::before {
+        width: 100% !important;
+        visibility: visible !important;
+    }
+
+  
+}
+
+@media screen and (max-width: 991px) {
+
+    .navbar {
+        padding: 0.3rem !important;
+
+    }
+
+    .navbar-brand {
+        padding: 5px !important;
+        padding-left: 20px !important;
+        color: white !important;
+    }
+
+    
+#li-nav {
+  border-bottom: 60px !important;
+  padding-bottom: 20px !important;
+}
+}
+
+

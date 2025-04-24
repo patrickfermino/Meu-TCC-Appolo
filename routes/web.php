@@ -25,6 +25,11 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/solicitantes', function () {
+    return view('contratantes');
+});
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
@@ -43,6 +48,7 @@ Route::resource('categorias-artisticas', CategoriaArtisticaController::class)->p
 
 Route::resource('usuarios', UsuarioController::class);
 
+Route::get('/usuarios/{id}/perfil-publico', [UsuarioController::class, 'showPerfilPublico'])->name('usuarios.perfilPublico');
 
 Route::get('/cadastro/artista', [UsuarioController::class, 'createArtista'])->name('usuarios.createArtista');
 Route::post('/cadastro/artista', [UsuarioController::class, 'storeArtista'])->name('usuarios.storeArtista');

@@ -8,6 +8,7 @@ use App\Models\Usuario;
 use App\Models\TipoUsuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 
 class UsuarioController extends Controller
@@ -76,8 +77,11 @@ class UsuarioController extends Controller
     public function perfil()
 {
     $usuario = Auth::user(); 
-    return view('usuarios.perfil', compact('usuario'));
+    return view('usuarios.perfil_publico', compact('usuario'));
 }
+
+
+
 
 
     public function show(string $id)
@@ -85,6 +89,12 @@ class UsuarioController extends Controller
         //
     }
 
+    public function showPerfilPublico($id)
+{
+    $usuario = Usuario::findOrFail($id);
+
+    return view('usuarios.perfil_publico', compact('usuario'));
+}
     /**
      * Show the form for editing the specified resource.
      */
@@ -96,10 +106,45 @@ class UsuarioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, $id)
+{
+    $usuario = Usuario::findOrFail($id);
+
+    $request->validate([
+        'nome' => 'required|string|max:255',
+        'cidade' => 'nullable|string|max:255',
+        'cep' => 'nullable|string|max:20',
+        'bairro' => 'nullable|string|max:255',
+        'endereco' => 'nullable|string|max:255',
+        'senha' => 'nullable|string|min:8|confirmed',
+        'foto_perfil' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
+
+    $usuario->nome = $request->nome;
+    $usuario->cidade = $request->cidade;
+    $usuario->cep = $request->cep;
+    $usuario->bairro = $request->bairro;
+    $usuario->endereco = $request->endereco;
+
+    if ($request->filled('senha')) {
+        $usuario->senha = Hash::make($request->senha);
     }
+
+    if ($request->hasFile('foto_perfil')) {
+    
+        if ($usuario->foto_perfil) {
+            Storage::delete($usuario->foto_perfil);
+        }
+
+        $path = $request->file('foto_perfil')->store('fotos_perfil', 'public');
+        $usuario->foto_perfil = $path;
+    }
+
+    $usuario->save();
+
+    return redirect()->back()->with('success', 'Perfil atualizado com sucesso!');
+}
+    
 
     /**
      * Remove the specified resource from storage.
@@ -109,5 +154,8 @@ class UsuarioController extends Controller
         //
     }
 
+
+    //editar e add foto de perfil 
+    
     
 }

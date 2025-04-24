@@ -7,6 +7,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
+
 
 
 class Usuario extends Authenticatable
@@ -54,5 +56,10 @@ class Usuario extends Authenticatable
     {
         return $this->senha;
     }
+
+    public function getIdadeAttribute()
+{
+    return Carbon::parse($this->data_nasc)->age;
+}
 
 }

@@ -21,11 +21,11 @@
         <ul class="navbar-nav justify-content-left flex-grow-1 pe-3">
   
           <li class="nav-item">
-            <a class="nav-link mx-lg-2 active" aria-current="page" href="#">Artistas</a>
+            <a class="nav-link mx-lg-2" aria-current="page" href="#">Artistas</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link mx-lg-2" href="#">Solicitantes</a>
+            <a class="nav-link mx-lg-2" href="solicitantes">Solicitantes</a>
           </li>
 
           <li class="nav-item">
@@ -38,6 +38,14 @@
   <div class="d-flex justify-content-end gap-2 mt-auto position-relative bottom-0 end-0 p-3">
 
   @auth
+
+  <div class="actions d-flex gap-2">
+          <button class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#postModal">
+            <i class="bi bi-plus-circle"></i> Post
+          </button>
+          <button class="btn btn-outline-custom" data-bs-toggle="modal" data-bs-target="#editModal">
+            <i class="bi bi-pencil"></i> Editar perfil
+          </button>
 
   <div class="dropdown ms-3">
     <button class="btn btn-primary-custom dropdown-toggle" type="button" id="dropdownProfile" data-bs-toggle="dropdown" aria-expanded="false">
