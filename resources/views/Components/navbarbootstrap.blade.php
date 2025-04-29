@@ -40,9 +40,12 @@
   @auth
 
   <div class="actions d-flex gap-2">
+    @if(Auth::user()->tipo_usuario == 2)
           <button class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#postModal">
             <i class="bi bi-plus-circle"></i> Post
           </button>
+
+          @endif
           <button class="btn btn-outline-custom" data-bs-toggle="modal" data-bs-target="#editModal">
             <i class="bi bi-pencil"></i> Editar perfil
           </button>
@@ -88,6 +91,205 @@
   </div>
 </nav>
 
+
+@auth
+@if(Auth::user()->tipo_usuario == 2)
+
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title " id="editModalLabel">Editar Perfil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <form method="POST" action="{{ route('usuarios.update', Auth::user()->id) }}" enctype="multipart/form-data" class="text-start">
+                        @csrf
+                        @method('PUT')
+
+
+                        <div class="mb-3">
+                            <label for="foto_perfil" class="form-label">Foto de Perfil</label>
+                            <input type="file" name="foto_perfil" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                          <label for="nome" class="form-label">Nome</label>
+                           <input type="text" class="form-control" value="{{  Auth::user()->nome }}" name="nome" placeholder="Seu nome completo">
+                         </div>
+            
+            <div class="mb-3">
+              <label for="bio" class="form-label">Biografia</label>
+              <textarea class="form-control" id="bio" rows="3" placeholder="Conte sobre você e seu trabalho"></textarea>
+            </div>
+            
+            
+            <div class="mb-3">
+              <label class="form-label">Categorias</label>
+              <div class="d-flex flex-wrap gap-2" id="categorias-container">
+                <input type="checkbox" class="btn-check" id="teatro" name="categorias" autocomplete="off">
+                <label class="btn btn-sm btn-outline-custom" for="teatro">Teatro</label>
+              </div>
+            </div>
+            
+            
+            <div class="mb-3">
+              <label class="form-label">Gênero</label>
+              <div class="d-flex flex-wrap gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="masculino">
+                  <label class="form-check-label" for="masculino">
+                    Masculino
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="feminino">
+                  <label class="form-check-label" for="feminino">
+                    Feminino
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="naoInformar">
+                  <label class="form-check-label" for="naoInformar">
+                    Não informar
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+                            <label class="form-label">CEP</label>
+                            <input type="text" name="cep" class="form-control" value="{{  Auth::user()->cep }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Cidade</label>
+                            <input type="text" name="cidade" class="form-control" value="{{  Auth::user()->cidade }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Bairro</label>
+                            <input type="text" name="bairro" class="form-control" value="{{ Auth::user()->bairro }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Endereço</label>
+                            <input type="text" name="endereco" class="form-control" value="{{  Auth::user()->endereco }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nova Senha</label>
+                            <input type="password" name="senha" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Confirmar Nova Senha</label>
+                            <input type="password" name="senha_confirmation" class="form-control">
+                        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary-custom">Confirmar</button>
+
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  @else
+
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title " id="editModalLabel">Editar Perfil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <form method="POST" action="{{ route('usuarios.update', Auth::user()->id) }}" enctype="multipart/form-data" class="text-start">
+                        @csrf
+                        @method('PUT')
+
+
+                        <div class="mb-3">
+                            <label for="foto_perfil" class="form-label">Foto de Perfil</label>
+                            <input type="file" name="foto_perfil" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                          <label for="nome" class="form-label">Nome</label>
+                           <input type="text" class="form-control" value="{{  Auth::user()->nome }}" name="nome" placeholder="Seu nome completo">
+                         </div>
+
+
+                         <div class="mb-3">
+              <label class="form-label">Gênero</label>
+              <div class="d-flex flex-wrap gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="masculino">
+                  <label class="form-check-label" for="masculino">
+                    Masculino
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="feminino">
+                  <label class="form-check-label" for="feminino">
+                    Feminino
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="naoInformar">
+                  <label class="form-check-label" for="naoInformar">
+                    Não informar
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+                            <label class="form-label">CEP</label>
+                            <input type="text" name="cep" class="form-control" value="{{  Auth::user()->cep }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Cidade</label>
+                            <input type="text" name="cidade" class="form-control" value="{{  Auth::user()->cidade }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Bairro</label>
+                            <input type="text" name="bairro" class="form-control" value="{{ Auth::user()->bairro }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Endereço</label>
+                            <input type="text" name="endereco" class="form-control" value="{{  Auth::user()->endereco }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nova Senha</label>
+                            <input type="password" name="senha" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Confirmar Nova Senha</label>
+                            <input type="password" name="senha_confirmation" class="form-control">
+                        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary-custom">Confirmar</button>
+
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @endif
+  @endauth
 
 
 

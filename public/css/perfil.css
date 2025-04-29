@@ -17,9 +17,6 @@
     padding-top: 120px !important;
   }
 
-  .text-primary {
-    color: var(--roxo-appolo) !important;
-  }
   
   .bg-primary {
     background-color: var(--roxo-appolo) !important;
@@ -59,6 +56,13 @@
 #imageModal .modal-dialog {
     max-width: 90vw;
     margin: 1rem auto;
+  }
+
+  .text-nome {
+    color: var(--roxo-appolo);
+    font-weight: bold;
+    font-family: "Jost", sans-serif !important;
+    text-transform: uppercase !important;
   }
   
   #imageModal .modal-content {

@@ -15,10 +15,10 @@
     <div class="container" >
       <div class="row align-items-center">
         <div class="col-md-3 text-center text-md-start mb-4 mb-md-0">
-          <img src="{{ $usuario->foto_perfil ? asset('storage/' . $usuario->foto_perfil) : asset('img/default-user.png') }}" class="rounded-circle border border-4 border-tertiary shadow profile-img" alt="Perfil">
+          <img src="{{ $usuario->foto_perfil ? asset('storage/' . $usuario->foto_perfil) : asset('imgs/user.jpg') }}" class="rounded-circle border border-4 border-tertiary shadow profile-img" alt="Perfil">
         </div>
         <div class="col-md-9">
-          <h1 class="text-primary">{{ $usuario->nome }} </h1>
+          <h1 class="text-nome">{{ $usuario->nome }} </h1>
           <p class="text-muted"><i class="bi bi-calendar"></i> {{ $usuario->idade }} anos </p>
           <p class="text-muted"><i class="bi bi-geo-alt"></i>  {{ $usuario->cidade ?? 'Localidade não definida' }}  </p>
           <p><strong>Endereço:</strong> {{ $usuario->cep }}  , {{ $usuario->bairro }} , {{ $usuario->endereco }}</p>
@@ -41,6 +41,36 @@
             </div>
             <span class="ms-2 text-muted">(55 avaliações)</span>
           </div>
+
+          @auth
+          @if(Auth::user()->tipo_usuario == 2)
+          <button class="btn btn-outline-custom" data-bs-toggle="modal" data-bs-target="#editModalportfolio">
+            <i class="bi bi-pencil"></i> Editar Portfólio
+          </button>
+
+          @endif
+          @endauth
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  
+
+
+  <section class="py-4 bg-light">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <img src="image/obra1.jpg" class="img-fluid rounded shadow-sm gallery-img" alt="Obra" data-bs-toggle="modal" data-bs-target="#imageModal">
+        </div>
+        <div class="col-md-4">
+          <img src="image/obra2.jpg" class="img-fluid rounded shadow-sm gallery-img" alt="Obra" data-bs-toggle="modal" data-bs-target="#imageModal">
+        </div>
+        <div class="col-md-4">
+          <img src="image/obra3.jpg" class="img-fluid rounded shadow-sm gallery-img" alt="Obra" data-bs-toggle="modal" data-bs-target="#imageModal">
         </div>
       </div>
     </div>
@@ -107,6 +137,12 @@
     </div>
 </div>
 
+
+
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+@include('Components.footer')
