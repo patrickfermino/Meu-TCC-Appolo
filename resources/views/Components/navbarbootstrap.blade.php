@@ -65,7 +65,7 @@
     </ul>
   </div>
 @else
-  <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3" href="{{ route('register') }}">Cadastrar-se</a></li>
+  <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3" data-bs-toggle="modal" data-bs-target="#cadastroModal">Cadastrar-se</a></li>
   <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3" href="{{ route('login') }}">Entrar</a></li>
 @endauth
 
@@ -90,6 +90,22 @@
 
   </div>
 </nav>
+
+
+<div class="modal fade" id="cadastroModal" tabindex="-1" aria-labelledby="cadastroModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+      <div class="modal-body button-group" >
+
+      <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3" href="cadastro/artista">Cadastro Artista</a></li>
+      <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3" href="cadastro/contratante">Cadastro Solicitante</a></li>
+
+      </div>
+      </div>
+    </div>
+  </div>
+
 
 
 @auth
@@ -117,22 +133,7 @@
                           <label for="nome" class="form-label">Nome</label>
                            <input type="text" class="form-control" value="{{  Auth::user()->nome }}" name="nome" placeholder="Seu nome completo">
                          </div>
-            
-            <div class="mb-3">
-              <label for="bio" class="form-label">Biografia</label>
-              <textarea class="form-control" id="bio" rows="3" placeholder="Conte sobre você e seu trabalho"></textarea>
-            </div>
-            
-            
-            <div class="mb-3">
-              <label class="form-label">Categorias</label>
-              <div class="d-flex flex-wrap gap-2" id="categorias-container">
-                <input type="checkbox" class="btn-check" id="teatro" name="categorias" autocomplete="off">
-                <label class="btn btn-sm btn-outline-custom" for="teatro">Teatro</label>
-              </div>
-            </div>
-            
-            
+          
             <div class="mb-3">
               <label class="form-label">Gênero</label>
               <div class="d-flex flex-wrap gap-3">

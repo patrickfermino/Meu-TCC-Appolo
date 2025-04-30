@@ -139,6 +139,23 @@
 
 
 
+            <div class="mb-3">
+              <label for="bio" class="form-label">Biografia</label>
+              <textarea class="form-control" id="bio" rows="3" placeholder="Conte sobre você e seu trabalho"></textarea>
+            </div>
+            
+            
+            <div class="mb-3">
+              <label class="form-label">Categorias</label>
+              <div class="d-flex flex-wrap gap-2" id="categorias-container">
+                <input type="checkbox" class="btn-check" id="teatro" name="categorias" autocomplete="off">
+                <label class="btn btn-sm btn-outline-custom" for="teatro">Teatro</label>
+              </div>
+            </div>
+            
+            
+
+
 
 
 
