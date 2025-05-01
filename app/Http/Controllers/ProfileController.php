@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\CategoriaArtistica;
+
 
 class ProfileController extends Controller
 {
@@ -57,4 +59,14 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function show($id)
+{
+    $usuario = Usuario::with('portfolioArtista', 'categoriasArtisticas')->findOrFail($id);
+    $categorias = CategoriaArtistica::all();
+    $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
+
+    return view('usuarios.perfil_publico', compact('usuario', 'categorias', 'categoriasSelecionadas'));
+}
+
 }

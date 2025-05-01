@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoriaArtisticaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\TipoUsuarioController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PortfolioArtistaController;
 
 
 
@@ -48,6 +49,8 @@ Route::resource('categorias-artisticas', CategoriaArtisticaController::class)->p
 
 Route::resource('usuarios', UsuarioController::class);
 
+
+
 Route::get('/usuarios/{id}/perfil-publico', [UsuarioController::class, 'showPerfilPublico'])->name('usuarios.perfilPublico');
 
 Route::get('/cadastro/artista', [UsuarioController::class, 'createArtista'])->name('usuarios.createArtista');
@@ -60,9 +63,24 @@ Route::post('/usuarios/artista', [UsuarioController::class, 'storeArtista'])->na
 Route::post('/usuarios/contratante', [UsuarioController::class, 'storeContratante'])->name('usuarios.storeContratante');
 
 
+
+// portfolio 
+Route::middleware(['auth'])->group(function () {
+    Route::resource('portfolio', \App\Http\Controllers\PortfolioArtistaController::class)->except(['show']);
+});
+
+Route::resource('portfolio', PortfolioArtistaController::class)->middleware('auth');
+
+
+
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/perfil', [UsuarioController::class, 'perfil'])->name('perfil');
 });
+
+
+
+
 
 Route::post('/logout', function () {
     Auth::logout();

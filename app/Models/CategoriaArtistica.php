@@ -18,4 +18,8 @@ class CategoriaArtistica extends Model
     ];
 
     
+    public function usuarios()
+{
+    return $this->belongsToMany(Usuario::class, 'categorias_usuarios', 'id_categoria', 'id_usuario');
+}
 }

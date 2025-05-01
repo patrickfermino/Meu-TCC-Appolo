@@ -9,6 +9,8 @@ use App\Models\TipoUsuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\CategoriaArtistica;
+
 
 
 class UsuarioController extends Controller
@@ -75,25 +77,35 @@ class UsuarioController extends Controller
 
 
     public function perfil()
+    {
+        $usuario = Auth::user(); 
+        $usuario->load('portfolioArtista', 'categoriasArtisticas');
+        $categorias = CategoriaArtistica::all();
+        $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
+    
+        return view('usuarios.perfil_publico', compact('usuario', 'categorias', 'categoriasSelecionadas'));
+    }
+
+
+
+
+public function show($id)
 {
-    $usuario = Auth::user(); 
-    return view('usuarios.perfil_publico', compact('usuario'));
+    $usuario = Usuario::with('portfolioArtista', 'categoriasArtisticas')->findOrFail($id);
+    $categorias = CategoriaArtistica::all();
+    $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
+
+    return view('usuarios.perfil_publico', compact('usuario', 'categorias', 'categoriasSelecionadas'));
 }
 
 
-
-
-
-    public function show(string $id)
-    {
-        //
-    }
-
-    public function showPerfilPublico($id)
+public function showPerfilPublico($id)
 {
-    $usuario = Usuario::findOrFail($id);
+    $usuario = Usuario::with('portfolioArtista', 'categoriasArtisticas')->findOrFail($id);
+    $categorias = CategoriaArtistica::all();
+    $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
 
-    return view('usuarios.perfil_publico', compact('usuario'));
+    return view('usuarios.perfil_publico', compact('usuario', 'categorias', 'categoriasSelecionadas'));
 }
     /**
      * Show the form for editing the specified resource.
@@ -154,6 +166,8 @@ class UsuarioController extends Controller
         //
     }
 
+
+    
 
     //editar e add foto de perfil 
     

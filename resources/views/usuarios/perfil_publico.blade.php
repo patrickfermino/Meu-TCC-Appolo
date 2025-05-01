@@ -10,6 +10,30 @@
 
 @include('Components.navbarbootstrap')
 
+@php
+    $portfolio = Auth::check() ? Auth::user()->portfolioArtista : null;
+@endphp
+
+
+
+
+@if ($errors->any())
+
+
+<div class="modal fade" id="editModalportfolio" tabindex="-1" aria-labelledby="editModalportfolioLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $erro)
+                <li>{{ $erro }}</li>
+            @endforeach
+        </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+@endif
 
 <section class="py-5">
     <div class="container" >
@@ -19,17 +43,32 @@
         </div>
         <div class="col-md-9">
           <h1 class="text-nome">{{ $usuario->nome }} </h1>
+
+          @auth
+          @if(Auth::user()->tipo_usuario == 2)
+          <h3 class="text-nome"> {{ $portfolio->nome_artistico }} </h3> 
+            @endif
+            @endauth 
+
           <p class="text-muted"><i class="bi bi-calendar"></i> {{ $usuario->idade }} anos </p>
           <p class="text-muted"><i class="bi bi-geo-alt"></i>  {{ $usuario->cidade ?? 'Localidade não definida' }}  </p>
           <p><strong>Endereço:</strong> {{ $usuario->cep }}  , {{ $usuario->bairro }} , {{ $usuario->endereco }}</p>
-          <p class="text-muted"><i class="bi bi-brush"></i> Grafiteiro, Ilustrador "ainda n esta vindo do banco" </p>
-          <div class="social-icons my-3">
-            <a href="#" class="text-primary fs-4 me-3"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="text-primary fs-4 me-3"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="text-primary fs-4 me-3"><i class="bi bi-envelope"></i></a>
-            <a href="#" class="text-primary fs-4 me-3"><i class="bi bi-linkedin"></i></a>
-            <a href="#" class="text-primary fs-4 me-3"><i class="bi bi-link-45deg"></i></a>
-          </div>
+          <p class="text-muted">
+          <i class="bi bi-brush"></i>
+                       {{ $portfolio->descricao ?? 'Descrição do portfólio não disponível' }}
+                </p>
+                <div class="social-icons my-3">
+
+    <a href="{{$portfolio->link_instagram }}" class="text-primary fs-4 me-3" target="_blank">
+      <i class="bi bi-instagram"></i>
+    </a>
+  
+  
+    <a href="{{$portfolio->link_behance }}" class="text-primary fs-4 me-3" target="_blank">
+      <i class="bi bi-link-45deg"></i>
+    </a>
+ 
+</div>
           <div class="rating bg-primary bg-opacity-10 d-inline-flex align-items-center px-3 py-1 rounded-pill">
             <span class="fw-bold me-2">4.5</span>
             <div class="stars">
@@ -43,23 +82,23 @@
           </div>
 
           @auth
-          @if(Auth::user()->tipo_usuario == 2)
-          <button class="btn btn-outline-custom" data-bs-toggle="modal" data-bs-target="#editModalportfolio">
-            <i class="bi bi-pencil"></i> Editar Portfólio
-          </button>
+            @if(Auth::user()->tipo_usuario == 2)
+            @php
+              $portfolio = Auth::user()->portfolioArtista ?? null;
+            @endphp
 
-          @endif
-          @endauth
-
+                  <button class="btn btn-outline-custom" data-bs-toggle="modal" data-bs-target="#editModalportfolio">
+                      <i class="bi bi-pencil"></i>
+                  {{ $portfolio ? 'Editar Portfólio' : 'Criar Portfólio' }}
+                  </button>
+              @endif
+            @endauth
         </div>
       </div>
     </div>
   </section>
 
-
   
-
-
   <section class="py-4 bg-light">
     <div class="container">
       <div class="row g-4">
@@ -76,75 +115,11 @@
     </div>
   </section>
 
-
-
-            <!-- Apenas o próprio usuário pode ver o formulário -->
-            <!-- @auth
-                @if (auth()->user()->id === $usuario->id)
-
-                    <hr>
-                    <h5 class="mt-4">Editar Perfil</h5>
-
-                    <form method="POST" action="{{ route('usuarios.update', $usuario->id) }}" enctype="multipart/form-data" class="text-start">
-                        @csrf
-                        @method('PUT')
-
-                        <div class="mb-3">
-                            <label for="foto_perfil" class="form-label">Foto de Perfil</label>
-                            <input type="file" name="foto_perfil" class="form-control">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Nome</label>
-                            <input type="text" name="nome" class="form-control" value="{{ $usuario->nome }}">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">CEP</label>
-                            <input type="text" name="cep" class="form-control" value="{{ $usuario->cep }}">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Cidade</label>
-                            <input type="text" name="cidade" class="form-control" value="{{ $usuario->cidade }}">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Bairro</label>
-                            <input type="text" name="bairro" class="form-control" value="{{ $usuario->bairro }}">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Endereço</label>
-                            <input type="text" name="endereco" class="form-control" value="{{ $usuario->endereco }}">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Nova Senha</label>
-                            <input type="password" name="senha" class="form-control">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Confirmar Nova Senha</label>
-                            <input type="password" name="senha_confirmation" class="form-control">
-                        </div>
-
-                        <button type="submit" class="btn btn-purple">Salvar Alterações</button>
-                    </form>
-                @endif
-            @endauth -->
         </div>
     </div>
 </div>
 
 
-
-            <div class="mb-3">
-              <label for="bio" class="form-label">Biografia</label>
-              <textarea class="form-control" id="bio" rows="3" placeholder="Conte sobre você e seu trabalho"></textarea>
-            </div>
-            
-            
             <div class="mb-3">
               <label class="form-label">Categorias</label>
               <div class="d-flex flex-wrap gap-2" id="categorias-container">
@@ -154,8 +129,66 @@
             </div>
             
             
+  <!-- Modal Editar/Criar Portfolio -->
 
 
+  <div class="modal fade" id="editModalportfolio" tabindex="-1" aria-labelledby="editModalportfolioLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{{ $portfolio ? route('portfolio.update', $portfolio->id) : route('portfolio.store') }}" method="POST">
+        @csrf
+        @if($portfolio)
+            @method('PUT')
+        @endif
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalportfolioLabel">
+            {{ $portfolio ? 'Editar Portfólio' : 'Criar Portfólio' }}
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nome_artistico" class="form-label">Nome Artístico</label>
+            <input type="text" name="nome_artistico" class="form-control" value="{{ $portfolio->nome_artistico ?? '' }}">
+          </div>
+          <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição</label>
+            <textarea name="descricao" class="form-control">{{ $portfolio->descricao ?? '' }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="link_instagram" class="form-label">Link do Instagram</label>
+            <input type="text" name="link_instagram" class="form-control" value="{{ $portfolio->link_instagram ?? '' }}">
+          </div>
+          <div class="mb-3">
+            <label for="link_behance" class="form-label">Link Pessoal</label>
+            <input type="text" name="link_behance" class="form-control" value="{{ $portfolio->link_behance ?? '' }}">
+          </div>
+        </div>
+
+        <div class="mb-3">
+    <label class="form-label">Categorias Artísticas</label>
+    <div class="d-flex flex-wrap gap-2" id="categorias-container" autocomplete="off">
+        @foreach ($categorias as $categoria)
+            <div class="form-check">
+                <input  class="btn-check" type="checkbox" 
+                       name="categorias[]" 
+                       value="{{ $categoria->id }}"
+                       id="categoria_{{ $categoria->id }}"
+                       {{ in_array($categoria->id, $categoriasSelecionadas) ? 'checked' : '' }}>
+                <label class="btn btn-sm btn-outline-custom"  for="categoria_{{ $categoria->id }}">
+                    {{ $categoria->nome }}
+                </label>
+            </div>
+        @endforeach
+    </div>
+</div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-outline-custom">{{ $portfolio ? 'Salvar Alterações' : 'Criar Portfólio' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 
 
