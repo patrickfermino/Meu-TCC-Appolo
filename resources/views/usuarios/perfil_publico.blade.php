@@ -46,7 +46,7 @@
 
           @auth
           @if(Auth::user()->tipo_usuario == 2)
-          <h3 class="text-nome"> {{ $portfolio->nome_artistico }} </h3> 
+          <h3 class="text-nome"> {{ $portfolio->nome_artistico ?? '' }} </h3> 
             @endif
             @endauth 
 
@@ -54,31 +54,37 @@
           <p class="text-muted"><i class="bi bi-geo-alt"></i>  {{ $usuario->cidade ?? 'Localidade não definida' }}  </p>
           <p><strong>Endereço:</strong> {{ $usuario->cep }}  , {{ $usuario->bairro }} , {{ $usuario->endereco }}</p>
           <p class="text-muted">
+
+          @auth
+          @if(Auth::user()->tipo_usuario == 2)
           <i class="bi bi-brush"></i>
                        {{ $portfolio->descricao ?? 'Descrição do portfólio não disponível' }}
                 </p>
                 <div class="social-icons my-3">
 
-    <a href="{{$portfolio->link_instagram }}" class="text-primary fs-4 me-3" target="_blank">
+    <a href="{{$portfolio->link_instagram ?? '' }}" class="text-primary fs-4 me-3" target="_blank">
       <i class="bi bi-instagram"></i>
     </a>
   
   
-    <a href="{{$portfolio->link_behance }}" class="text-primary fs-4 me-3" target="_blank">
+    <a href="{{$portfolio->link_behance ?? ''}}" class="text-primary fs-4 me-3" target="_blank">
       <i class="bi bi-link-45deg"></i>
     </a>
  
+    @endif
+    @endauth
+    
 </div>
           <div class="rating bg-primary bg-opacity-10 d-inline-flex align-items-center px-3 py-1 rounded-pill">
-            <span class="fw-bold me-2">4.5</span>
+            <span class="fw-bold me-2"> 5 </span>
             <div class="stars">
               <i class="bi bi-star-fill text-warning"></i>
               <i class="bi bi-star-fill text-warning"></i>
               <i class="bi bi-star-fill text-warning"></i>
               <i class="bi bi-star-fill text-warning"></i>
-              <i class="bi bi-star text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
             </div>
-            <span class="ms-2 text-muted">(55 avaliações)</span>
+            <span class="ms-2 text-muted">( ?? avaliações)</span>
           </div>
 
           @auth
@@ -91,9 +97,38 @@
                       <i class="bi bi-pencil"></i>
                   {{ $portfolio ? 'Editar Portfólio' : 'Criar Portfólio' }}
                   </button>
+
+
+
+                 
+        
+
+            
               @endif
             @endauth
+
+ <!-- Mostrar as categorias aqui  -->
+            
+            @if($usuario->categoriasArtisticas && $usuario->categoriasArtisticas->count() > 0)
+    <div class="mb-3">
+    <label class="form-label">Categorias : </label>
+        <div class="d-flex flex-wrap gap-2">
+            @foreach ($usuario->categoriasArtisticas as $cat)
+                <label class="btn btn-sm btn-outline-custom">{{ $cat->nome }}</label>
+            @endforeach
         </div>
+    </div>
+@else
+    <p class="text-muted">Nenhuma categoria selecionada</p>
+@endif
+
+
+        </div>
+
+        
+
+
+
       </div>
     </div>
   </section>
@@ -102,15 +137,13 @@
   <section class="py-4 bg-light">
     <div class="container">
       <div class="row g-4">
+        
+      
         <div class="col-md-4">
           <img src="image/obra1.jpg" class="img-fluid rounded shadow-sm gallery-img" alt="Obra" data-bs-toggle="modal" data-bs-target="#imageModal">
         </div>
-        <div class="col-md-4">
-          <img src="image/obra2.jpg" class="img-fluid rounded shadow-sm gallery-img" alt="Obra" data-bs-toggle="modal" data-bs-target="#imageModal">
-        </div>
-        <div class="col-md-4">
-          <img src="image/obra3.jpg" class="img-fluid rounded shadow-sm gallery-img" alt="Obra" data-bs-toggle="modal" data-bs-target="#imageModal">
-        </div>
+    
+
       </div>
     </div>
   </section>
@@ -120,14 +153,7 @@
 </div>
 
 
-            <div class="mb-3">
-              <label class="form-label">Categorias</label>
-              <div class="d-flex flex-wrap gap-2" id="categorias-container">
-                <input type="checkbox" class="btn-check" id="teatro" name="categorias" autocomplete="off">
-                <label class="btn btn-sm btn-outline-custom" for="teatro">Teatro</label>
-              </div>
-            </div>
-            
+        
             
   <!-- Modal Editar/Criar Portfolio -->
 
@@ -166,6 +192,7 @@
         </div>
 
         <div class="mb-3">
+          <!-- Selecionar categorias aqui  -->
     <label class="form-label">Categorias Artísticas</label>
     <div class="d-flex flex-wrap gap-2" id="categorias-container" autocomplete="off">
         @foreach ($categorias as $categoria)
