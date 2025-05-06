@@ -14,23 +14,33 @@
 
 
         <body>
-            <form class="form">
-            <img src="{{ asset('imgs/appolologo.png') }}" />
-                 
-            
-                <span class="input-span">
-               
-                        <label for="email" class="label">Email</label>
-                         <input type="email" name="email" id="email"
-                    /></span>
-                   <span class="input-span">
-               <label for="password" class="label">Senha</label>
-                       <input type="password" name="password" id="password"
-                          /></span>
-                     <span class="span"><a href="#">Esqueceu sua senha?</a></span>
-                    <input class="submit" type="submit" value="Log in" />
-            
-         </form>
+        <form class="form" method="POST" action="{{ route('loginInterno') }}">
+    @csrf
+    <img src="{{ asset('imgs/appolologo.png') }}" />
+
+    {{-- Exibir mensagens de erro --}}
+    @if($errors->any())
+        <div class="alert alert-danger" style="color:red; text-align:center">
+            @foreach($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
+
+    <span class="input-span">
+        <label for="email" class="label">Email</label>
+        <input type="email" name="email" id="email" required />
+    </span>
+
+    <span class="input-span">
+        <label for="password" class="label">Senha</label>
+        <input type="password" name="password" id="password" required />
+    </span>
+
+    <span class="span"><a href="#">Esqueceu sua senha?</a></span>
+
+    <input class="submit" type="submit" value="Log in" />
+</form>
 
 
     </div> 

@@ -86,6 +86,13 @@ class UsuarioController extends Controller
         return view('usuarios.perfil_publico', compact('usuario', 'categorias', 'categoriasSelecionadas'));
     }
 
+    public function editInterno()
+{
+    $usuario = Auth::user();
+    $tiposUsuario = TipoUsuario::all();
+
+    return view('usuarios.edit_interno', compact('usuario', 'tiposUsuario'));
+}
 
 
 
@@ -110,11 +117,13 @@ public function showPerfilPublico($id)
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+    public function edit($id)
+{
+    $usuario = Usuario::findOrFail($id);
+    $tiposUsuario = TipoUsuario::all();
 
+    return view('usuarios.edit_interno', compact('usuario', 'tiposUsuario'));
+}
     /**
      * Update the specified resource in storage.
      */

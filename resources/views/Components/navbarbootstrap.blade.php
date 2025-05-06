@@ -55,11 +55,11 @@
       {{ Auth::user()->nome }}
     </button>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownProfile">
-      <li><a class="dropdown-item" href="{{ route('perfil') }}">Perfil</a></li>
+      <li><a class="dropdown-item" href="{{ route('usuarios.perfilPublico', $usuario->id) }}">Perfil</a></li>
       <li>
         <form action="{{ route('logout') }}" method="POST">
           @csrf
-          <button class="dropdown-item" type="submit">Logout</button>
+          <button class="dropdown-item" type="submit">Sair</button>
         </form>
       </li>
     </ul>

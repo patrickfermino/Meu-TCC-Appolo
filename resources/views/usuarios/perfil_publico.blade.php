@@ -189,24 +189,27 @@
             <label for="link_behance" class="form-label">Link Pessoal</label>
             <input type="text" name="link_behance" class="form-control" value="{{ $portfolio->link_behance ?? '' }}">
           </div>
-        </div>
-
-        <div class="mb-3">
+          <div class="mb-3">
           <!-- Selecionar categorias aqui  -->
-    <label class="form-label">Categorias Artísticas</label>
-    <div class="d-flex flex-wrap gap-2" id="categorias-container" autocomplete="off">
-        @foreach ($categorias as $categoria)
-            <div class="form-check">
-                <input  class="btn-check" type="checkbox" 
-                       name="categorias[]" 
-                       value="{{ $categoria->id }}"
-                       id="categoria_{{ $categoria->id }}"
-                       {{ in_array($categoria->id, $categoriasSelecionadas) ? 'checked' : '' }}>
-                <label class="btn btn-sm btn-outline-custom"  for="categoria_{{ $categoria->id }}">
-                    {{ $categoria->nome }}
-                </label>
-            </div>
-        @endforeach
+          <label class="form-label">Categorias Artísticas</label>
+            <div class="d-flex flex-wrap gap-2" id="categorias-container" autocomplete="off">
+            @foreach ($categorias as $categoria)
+    <div class="form-check">
+        <input
+            class="form-check-input"
+            type="checkbox"
+            name="categorias[]"
+            value="{{ $categoria->id }}"
+            id="categoria_{{ $categoria->id }}"
+            {{ in_array($categoria->id, $categoriasSelecionadas) ? 'checked' : '' }}
+        >
+        <label class="form-check-label" for="categoria_{{ $categoria->id }}">
+            {{ $categoria->nome }}
+        </label>
+    </div>
+@endforeach
+
+        
     </div>
 </div>
         <div class="modal-footer">

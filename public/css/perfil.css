@@ -29,6 +29,22 @@
     object-fit: cover;
   }
   
+  .btn-outline-custom {
+    border: 2px solid #8000ff;
+    color: #8000ff;
+    background-color: transparent;
+    border-radius: 20px;
+    padding: 6px 20px;
+    font-weight: 500;
+}
+
+.btn-check:checked + .btn-outline-custom,
+.btn-outline-custom:hover {
+    background-color: #8000ff;
+    color: #fff;
+    border-color: #8000ff;
+}
+  
   .social-icons a {
     transition: transform 0.3s ease;
     color: var(--roxo-appolo) !important;

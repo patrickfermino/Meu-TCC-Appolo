@@ -1,6 +1,9 @@
+@extends('layouts.app')
+
+
 
 @section('content')
-<div class="container mt-4">
+<div class="container">
     <h2>Cadastrar Novo Usuário</h2>
 
     <form method="POST" action="{{ route('usuarios.store') }}">
@@ -38,3 +41,5 @@
         <button class="btn btn-success">Salvar</button>
     </form>
 </div>
+
+@endsection

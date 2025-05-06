@@ -10,7 +10,7 @@
  <body>
      <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
          <div class="container">
-             <a class="navbar-brand" href="{{ url('/') }}">Appolo</a>
+             <a class="navbar-brand" href="{{ route('categorias-artisticas.index') }}">Appolo</a>
              <div class="collapse navbar-collapse">
                  <ul class="navbar-nav me-auto">
                      <li class="nav-item">
@@ -22,6 +22,29 @@
                  </ul>
                  </div>
          </div>
+        
+        
+         @if(Auth::check())
+    <div class="dropdown ms-auto me-3">
+        <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownProfile" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ Auth::user()->nome }}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownProfile">
+        <li><a class="dropdown-item" href="{{ route('usuarios.editInterno') }}">Meu Perfil</a></li>
+        
+            <li>
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button class="dropdown-item" type="submit">Sair</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+@endif
+
+
+
+
      </nav>
  
      <main class="container">

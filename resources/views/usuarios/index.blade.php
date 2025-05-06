@@ -22,6 +22,7 @@
                     <td>{{ $usuario->tipo->nome ?? 'Sem tipo' }}</td>
                     <td>
                         <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        
                         <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Tem certeza?')">
                             @csrf
                             @method('DELETE')
