@@ -59,6 +59,18 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+    
+    
+    public function showPerfil()
+    {
+        $usuario = Auth::user();
+    
+        // Carrega os posts do usuário com imagens e comentários
+        $posts = $usuario->posts()->with(['imagens', 'comentarios.usuario'])->get();
+    
+        return view('perfil.artista', compact('usuario', 'posts'));
+    }
+
 
     public function show($id)
 {

@@ -24,4 +24,10 @@ class PortfolioArtista extends Model
     {
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
+
+
+    public function posts()
+{
+    return $this->hasMany(PostPortfolio::class, 'id_portfolio');
+}
 }

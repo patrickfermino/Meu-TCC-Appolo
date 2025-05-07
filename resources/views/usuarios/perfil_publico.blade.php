@@ -17,6 +17,7 @@
 
 
 
+
 @if ($errors->any())
 
 
@@ -44,19 +45,16 @@
         <div class="col-md-9">
           <h1 class="text-nome">{{ $usuario->nome }} </h1>
 
-          @auth
-          @if(Auth::user()->tipo_usuario == 2)
+         
           <h3 class="text-nome"> {{ $portfolio->nome_artistico ?? '' }} </h3> 
-            @endif
-            @endauth 
+           
 
           <p class="text-muted"><i class="bi bi-calendar"></i> {{ $usuario->idade }} anos </p>
           <p class="text-muted"><i class="bi bi-geo-alt"></i>  {{ $usuario->cidade ?? 'Localidade não definida' }}  </p>
           <p><strong>Endereço:</strong> {{ $usuario->cep }}  , {{ $usuario->bairro }} , {{ $usuario->endereco }}</p>
           <p class="text-muted">
 
-          @auth
-          @if(Auth::user()->tipo_usuario == 2)
+        
           <i class="bi bi-brush"></i>
                        {{ $portfolio->descricao ?? 'Descrição do portfólio não disponível' }}
                 </p>
@@ -71,9 +69,7 @@
       <i class="bi bi-link-45deg"></i>
     </a>
  
-    @endif
-    @endauth
-    
+  
 </div>
           <div class="rating bg-primary bg-opacity-10 d-inline-flex align-items-center px-3 py-1 rounded-pill">
             <span class="fw-bold me-2"> 5 </span>
@@ -121,32 +117,176 @@
 @else
     <p class="text-muted">Nenhuma categoria selecionada</p>
 @endif
-
-
         </div>
-
-        
-
-
-
       </div>
     </div>
+
+
+
   </section>
 
-  
   <section class="py-4 bg-light">
-    <div class="container">
-      <div class="row g-4">
-        
-      
-        <div class="col-md-4">
-          <img src="image/obra1.jpg" class="img-fluid rounded shadow-sm gallery-img" alt="Obra" data-bs-toggle="modal" data-bs-target="#imageModal">
-        </div>
-    
+  <div class="container">
+    <div class="row g-4">
 
+    
+    @if(isset($posts) && $posts->count() > 0)
+
+
+      @foreach($posts as $post)
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <div id="carouselPost{{ $post->id }}" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                @foreach($post->imagens as $index => $img)
+                  <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                    <img src="{{ asset('storage/' . $img->caminho) }}" class="d-block w-100 rounded gallery-img" alt="Imagem do post"
+                      data-bs-toggle="modal" data-bs-target="#modalPost{{ $post->id }}">
+                  </div>
+                @endforeach
+              </div>
+              @if(count($post->imagens) > 1)
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselPost{{ $post->id }}" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselPost{{ $post->id }}" data-bs-slide="next">
+                  <span class="carousel-control-next-icon"></span>
+                </button>
+              @endif
+            </div>
+          </div>
+        </div>
+
+        {{-- Modal --}}
+        <div class="modal fade" id="modalPost{{ $post->id }}" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header border-0">
+                <div class="d-flex w-100 justify-content-end gap-2">
+                  <button type="button" class="btn btn-outline-custom btn-sm">
+                    <i class="bi bi-pencil"></i> Editar
+                  </button>
+                  <button type="button" class="btn btn-outline-custom btn-sm">
+                    <i class="bi bi-trash"></i> Apagar
+                  </button>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+              </div>
+              <div class="modal-body">
+                <div class="row g-4">
+                  <div class="col-lg-8">
+                    <div id="carouselModal{{ $post->id }}" class="carousel slide" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+                        @foreach($post->imagens as $index => $img)
+                          <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                            <img src="{{ asset('storage/' . $img->caminho) }}" class="d-block w-100 rounded" alt="Imagem Modal">
+                          </div>
+                        @endforeach
+                      </div>
+                      @if(count($post->imagens) > 1)
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselModal{{ $post->id }}" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselModal{{ $post->id }}" data-bs-slide="next">
+                          <span class="carousel-control-next-icon"></span>
+                        </button>
+                      @endif
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-4">
+                      <img src="{{ asset('storage/' . $post->usuario->foto_perfil) }}" class="rounded-circle me-3" width="60" height="60" alt="Avatar">
+                      <div>
+                        <h5 class="mb-0 text-primary">{{ $post->usuario->nome }}</h5>
+                        <small class="text-muted">{{ $post->usuario->idade }} anos | {{ $post->usuario->cidade ?? 'Localidade não definida' }}</small>
+                      </div>
+                    </div>
+                    <div class="bg-light p-3 rounded">
+                      <p>{{ $post->descricao }}</p>
+                    </div>
+
+                    
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      @endforeach
+
+      @else
+
+      @auth
+      @if(Auth::user()->tipo_usuario == 2)
+  <div class="col-12 text-center">
+    <div class="card shadow-sm p-4">
+      <h4 class="mb-3">Você ainda não tem posts</h4>
+      <p class="text-muted">Comece a compartilhar seu trabalho com o mundo!</p>
+
+      <button class="btn btn-outline-custon" data-bs-toggle="modal" data-bs-target="#postModal">
+      <i class="bi bi-plus-circle"></i> Faça seu primeiro post
+      </button>
+    </div>
+  </div>
+  
+  @endif
+  @endauth
+
+
+
+
+  <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title nav-link" id="postModalLabel">Novo Post</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+                    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+              @csrf
+
+              <div class="mb-3">
+                <label for="imagens" class="form-label">Imagens</label>
+                <input class="form-control" type="file" name="imagens[]" id="imagens" multiple>
+              </div>
+
+              <div class="mb-3">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título do seu post">
+              </div>
+
+              <div class="mb-4">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea class="form-control" name="descricao" id="descricao" rows="3" placeholder="Descreva sua obra"></textarea>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary-custom">Publicar</button>
+              </div>
+            </form>
+        </div>
       </div>
     </div>
-  </section>
+  </div> 
+
+
+@endif
+
+
+
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
 
         </div>
     </div>
@@ -190,6 +330,7 @@
             <input type="text" name="link_behance" class="form-control" value="{{ $portfolio->link_behance ?? '' }}">
           </div>
           <div class="mb-3">
+
           <!-- Selecionar categorias aqui  -->
           <label class="form-label">Categorias Artísticas</label>
             <div class="d-flex flex-wrap gap-2" id="categorias-container" autocomplete="off">
@@ -219,10 +360,53 @@
     </div>
   </div>
 </div>
+</div>
 
+
+@auth
+    @if(Auth::user()->tipo_usuario == 2)
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title nav-link" id="postModalLabel">Novo Post</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+                    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+              @csrf
+
+              <div class="mb-3">
+                <label for="imagens" class="form-label">Imagens</label>
+                <input class="form-control" type="file" name="imagens[]" id="imagens" multiple>
+              </div>
+
+              <div class="mb-3">
+                <label for="nome" class="form-label">Título</label>
+                <input type="text" class="form-control" name="nome" id="nome" placeholder="Título do seu post">
+              </div>
+
+              <div class="mb-4">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea class="form-control" name="descricao" id="descricao" rows="3" placeholder="Descreva sua obra"></textarea>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary-custom">Publicar</button>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  @endif
+  @endauth
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
 @include('Components.footer')

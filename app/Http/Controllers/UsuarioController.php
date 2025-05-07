@@ -76,15 +76,48 @@ class UsuarioController extends Controller
     
 
 
+
     public function perfil()
     {
-        $usuario = Auth::user(); 
-        $usuario->load('portfolioArtista', 'categoriasArtisticas');
+        $usuario = Auth::user();
+        $usuario->load('portfolioArtista.posts.imagens', 'categoriasArtisticas');
+        
+        $posts = $usuario->portfolioArtista->posts ?? collect();
         $categorias = CategoriaArtistica::all();
         $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
     
         return view('usuarios.perfil_publico', compact('usuario', 'categorias', 'categoriasSelecionadas'));
     }
+
+
+
+    
+    public function showPerfilPublico($id)
+    {
+        $usuario = Usuario::with('portfolioArtista.posts.imagens', 'categoriasArtisticas')->findOrFail($id);
+        $posts = $usuario->portfolioArtista->posts ?? collect();
+    
+        $categorias = CategoriaArtistica::all();
+        $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
+    
+        return view('usuarios.perfil_publico', compact('usuario', 'posts', 'categorias', 'categoriasSelecionadas'));
+    }
+
+
+    public function showshowPublic($id)
+    {
+        $usuario = Usuario::with('portfolioArtista.posts.imagens', 'categoriasArtisticas')->findOrFail($id);
+        $posts = $usuario->portfolioArtista->posts ?? collect();
+    
+        $categorias = CategoriaArtistica::all();
+        $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
+    
+        return view('usuarios.perfil_publico', compact('usuario', 'posts', 'categorias', 'categoriasSelecionadas'));
+    }
+
+
+
+
 
     public function editInterno()
 {
@@ -96,27 +129,10 @@ class UsuarioController extends Controller
 
 
 
-public function show($id)
-{
-    $usuario = Usuario::with('portfolioArtista', 'categoriasArtisticas')->findOrFail($id);
-    $categorias = CategoriaArtistica::all();
-    $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
-
-    return view('usuarios.perfil_publico', compact('usuario', 'categorias', 'categoriasSelecionadas'));
-}
 
 
-public function showPerfilPublico($id)
-{
-    $usuario = Usuario::with('portfolioArtista', 'categoriasArtisticas')->findOrFail($id);
-    $categorias = CategoriaArtistica::all();
-    $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
 
-    return view('usuarios.perfil_publico', compact('usuario', 'categorias', 'categoriasSelecionadas'));
-}
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit($id)
 {
     $usuario = Usuario::findOrFail($id);
@@ -127,6 +143,12 @@ public function showPerfilPublico($id)
     /**
      * Update the specified resource in storage.
      */
+
+
+
+
+
+
     public function update(Request $request, $id)
 {
     $usuario = Usuario::findOrFail($id);

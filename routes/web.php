@@ -8,16 +8,12 @@ use App\Http\Controllers\{
     UsuarioController,
     TipoUsuarioController,
     PortfolioArtistaController,
-    ProfileController
+    ProfileController, PostPortfolioController
 };
 use Illuminate\Http\Request;
 
-Route::get('/login', function () {
-    return view('auth/login');
-});
 
-
-
+//rotas admin : 
 Route::get('/login_interno', function () {
     return view('login_interno');
 });
@@ -37,10 +33,21 @@ Route::post('/login_interno', function (Request $request) {
     return redirect('/login_interno')->withErrors(['login' => 'Credenciais inválidas.']);
 })->name('loginInterno');
 
-
 Route::get('/meu-perfil', [UsuarioController::class, 'editInterno'])->name('usuarios.editInterno');
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('categorias-artisticas', CategoriaArtisticaController::class)
+        ->parameters(['categorias-artisticas' => 'categoriaArtistica']);
+});
 
+
+
+// rotas site
+
+
+Route::get('/login', function () {
+    return view('auth/login');
+});
 
 Route::get('/home', function () {
     return view('home');
@@ -66,10 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::resource('categorias-artisticas', CategoriaArtisticaController::class)
-        ->parameters(['categorias-artisticas' => 'categoriaArtistica']);
-});
+
 
 Route::resource('usuarios', UsuarioController::class);
 
@@ -98,8 +102,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/perfil', [UsuarioController::class, 'perfil'])->name('perfil');
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::post('/posts', [PostPortfolioController::class, 'store'])->name('posts.store');
+});
 
 
+
+Route::get('/perfil/{id}', [UsuarioController::class, 'showPublic'])->name('usuarios.public');
 
 
 Route::post('/logout', function () {

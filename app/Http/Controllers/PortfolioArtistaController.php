@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\PortfolioArtista;
 use Illuminate\Support\Facades\Auth;
 
+
 class PortfolioArtistaController extends Controller
 {
     public function index()
@@ -92,6 +93,9 @@ class PortfolioArtistaController extends Controller
     
         return redirect()->back()->with('success', 'Portfólio atualizado com sucesso!');
     }
+
+
+
 
     public function destroy($id)
     {
