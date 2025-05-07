@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PortfolioArtista;
 use Illuminate\Support\Facades\Auth;
+use App\Models\CategoriaArtistica;
 
 
 class PortfolioArtistaController extends Controller
 {
+
+    
     public function index()
     {
         $user = Auth::user();

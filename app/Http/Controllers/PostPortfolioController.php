@@ -66,13 +66,14 @@ class PostPortfolioController extends Controller
     
                 PostImagem::create([
                     'post_id' => $post->id,
-                    'imagem' => $caminho,
+                    'caminho_imagem' => $caminho,
                 ]);
             }
         }
     
         return redirect()->back()->with('success', 'Post criado com sucesso!');
     }
+
 
     public function create()
 {

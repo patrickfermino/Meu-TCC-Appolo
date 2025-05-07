@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreign('id_usuario')-> references('id')->on('usuarios')->onDelete('cascade');
             $table->string('nome_artistico')->nullable();
             $table->string('descricao')->nullable();
-            $table->string('link_instagram')->nullable();
-            $table->string('link_behance')->nullable();
+            $table->string('link_instagram', 2000)->nullable();
+            $table->string('link_behance', 2000)->nullable();
             //incluir coluna de feedback -> padrao 5
             $table->softDeletes();
 

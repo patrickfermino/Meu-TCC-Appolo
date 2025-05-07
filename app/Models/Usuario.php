@@ -67,6 +67,9 @@ public function portfolioArtista()
     return $this->hasOne(PortfolioArtista::class, 'id_usuario');
 }
 
+
+
+
 public function categoriasArtisticas()
 {
     return $this->belongsToMany(CategoriaArtistica::class, 'categorias_usuarios', 'id_usuario', 'id_categoria');

@@ -60,7 +60,7 @@
                 </p>
                 <div class="social-icons my-3">
 
-    <a href="{{$portfolio->link_instagram ?? '' }}" class="text-primary fs-4 me-3" target="_blank">
+    <a href="{{$portfolio->link_instagram ?? '' }}" class="text-primary fs-4 me-3 text-decoration-none" target="_blank">
       <i class="bi bi-instagram"></i>
     </a>
   
@@ -255,7 +255,7 @@
 
               <div class="mb-3">
                 <label for="titulo" class="form-label">Título</label>
-                <input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título do seu post">
+                <input type="text" class="form-control" name="nome" id="nome" placeholder="Título do seu post">
               </div>
 
               <div class="mb-4">
