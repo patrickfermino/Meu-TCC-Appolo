@@ -21,7 +21,7 @@
         <ul class="navbar-nav justify-content-left flex-grow-1 pe-3">
   
           <li class="nav-item">
-            <a class="nav-link mx-lg-2" aria-current="page" href="#">Artistas</a>
+            <a class="nav-link mx-lg-2" aria-current="page" href="{{ route('usuarios.publico') }}">Artistas</a>
           </li>
 
           <li class="nav-item">
@@ -209,6 +209,8 @@
   
 
 
+  @auth
+    @if(Auth::user()->tipo_usuario == 2)
 
   <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -221,21 +223,28 @@
                     <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
 
-              <div class="mb-3">
-                <label for="imagens" class="form-label">Imagens</label>
-                <input class="form-control" type="file" name="imagens[]" id="imagens" multiple>
-              </div>
 
               <div class="mb-3">
-                <label for="titulo" class="form-label">Título</label>
-                <input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título do seu post">
+                <label for="nome" class="form-label">Título</label>
+                <input type="text" class="form-control" name="nome" id="nome" placeholder="Título do seu post">
               </div>
+
 
               <div class="mb-4">
                 <label for="descricao" class="form-label">Descrição</label>
                 <textarea class="form-control" name="descricao" id="descricao" rows="3" placeholder="Descreva sua obra"></textarea>
               </div>
 
+
+
+              <div class="mb-3">
+                <label for="imagens" class="form-label">Imagens</label>
+                <input class="form-control" type="file" name="imagens[]" id="imagens" multiple>
+              </div>
+
+            
+
+              
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-primary-custom">Publicar</button>
@@ -245,6 +254,11 @@
       </div>
     </div>
   </div> 
+
+
+@endif
+
+  @endauth
 
   @endauth
 

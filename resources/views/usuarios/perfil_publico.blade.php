@@ -36,6 +36,9 @@
     </div>
 @endif
 
+
+
+
 <section class="py-5">
     <div class="container" >
       <div class="row align-items-center">
@@ -140,7 +143,7 @@
               <div class="carousel-inner">
                 @foreach($post->imagens as $index => $img)
                   <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                    <img src="{{ asset('storage/' . $img->caminho) }}" class="d-block w-100 rounded gallery-img" alt="Imagem do post"
+                  <img src="{{ asset('storage/' . $img->caminho_imagem) }}" alt="Imagem do post" class="d-block w-100 rounded gallery-img" alt="Imagem do post"
                       data-bs-toggle="modal" data-bs-target="#modalPost{{ $post->id }}">
                   </div>
                 @endforeach
@@ -157,18 +160,25 @@
           </div>
         </div>
 
+
+
         {{-- Modal --}}
         <div class="modal fade" id="modalPost{{ $post->id }}" tabindex="-1" aria-hidden="true">
           <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header border-0">
                 <div class="d-flex w-100 justify-content-end gap-2">
+                @auth
+                @if(Auth::user()->tipo_usuario == 2)
                   <button type="button" class="btn btn-outline-custom btn-sm">
                     <i class="bi bi-pencil"></i> Editar
                   </button>
                   <button type="button" class="btn btn-outline-custom btn-sm">
                     <i class="bi bi-trash"></i> Apagar
                   </button>
+                  @endif
+                  @endauth
+                 
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
               </div>
@@ -179,7 +189,7 @@
                       <div class="carousel-inner">
                         @foreach($post->imagens as $index => $img)
                           <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                            <img src="{{ asset('storage/' . $img->caminho) }}" class="d-block w-100 rounded" alt="Imagem Modal">
+                            <img src="{{ asset('storage/' . $img->caminho_imagem) }}" class="d-block w-100 rounded" alt="Imagem Modal">
                           </div>
                         @endforeach
                       </div>
@@ -195,10 +205,10 @@
                   </div>
                   <div class="col-lg-4">
                     <div class="d-flex align-items-center mb-4">
-                      <img src="{{ asset('storage/' . $post->usuario->foto_perfil) }}" class="rounded-circle me-3" width="60" height="60" alt="Avatar">
+                       <img src="{{ $usuario->foto_perfil ? asset('storage/' . $usuario->foto_perfil) : asset('imgs/user.jpg') }}" class="rounded-circle me-3" width="60" height="60" alt="Avatar">
                       <div>
-                        <h5 class="mb-0 text-primary">{{ $post->usuario->nome }}</h5>
-                        <small class="text-muted">{{ $post->usuario->idade }} anos | {{ $post->usuario->cidade ?? 'Localidade não definida' }}</small>
+                        <h5 class="mb-0 text-primary">{{ $post->nome }}</h5>
+                        <small class="text-muted">{{ $usuario->idade }} anos | {{ $usuario->cidade ?? 'Localidade não definida' }}</small>
                       </div>
                     </div>
                     <div class="bg-light p-3 rounded">
@@ -234,8 +244,21 @@
   @endif
   @endauth
 
+  @if ($errors->any())
+  <div class="alert alert-danger">
+    <ul>
+      @foreach ($errors->all() as $erro)
+        <li>{{ $erro }}</li>
+      @endforeach
+    </ul>
+  </div>
+@endif
 
 
+
+
+@auth
+    @if(Auth::user()->tipo_usuario == 2)
 
   <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -248,21 +271,28 @@
                     <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
 
-              <div class="mb-3">
-                <label for="imagens" class="form-label">Imagens</label>
-                <input class="form-control" type="file" name="imagens[]" id="imagens" multiple>
-              </div>
 
               <div class="mb-3">
-                <label for="titulo" class="form-label">Título</label>
+                <label for="nome" class="form-label">Título</label>
                 <input type="text" class="form-control" name="nome" id="nome" placeholder="Título do seu post">
               </div>
+
 
               <div class="mb-4">
                 <label for="descricao" class="form-label">Descrição</label>
                 <textarea class="form-control" name="descricao" id="descricao" rows="3" placeholder="Descreva sua obra"></textarea>
               </div>
 
+
+
+              <div class="mb-3">
+                <label for="imagens" class="form-label">Imagens</label>
+                <input class="form-control" type="file" name="imagens[]" id="imagens" multiple>
+              </div>
+
+            
+
+              
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-primary-custom">Publicar</button>
@@ -276,6 +306,8 @@
 
 @endif
 
+@endif
+  @endauth
 
 
 
@@ -362,46 +394,6 @@
 </div>
 </div>
 
-
-@auth
-    @if(Auth::user()->tipo_usuario == 2)
-<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title nav-link" id="postModalLabel">Novo Post</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-                    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
-              @csrf
-
-              <div class="mb-3">
-                <label for="imagens" class="form-label">Imagens</label>
-                <input class="form-control" type="file" name="imagens[]" id="imagens" multiple>
-              </div>
-
-              <div class="mb-3">
-                <label for="nome" class="form-label">Título</label>
-                <input type="text" class="form-control" name="nome" id="nome" placeholder="Título do seu post">
-              </div>
-
-              <div class="mb-4">
-                <label for="descricao" class="form-label">Descrição</label>
-                <textarea class="form-control" name="descricao" id="descricao" rows="3" placeholder="Descreva sua obra"></textarea>
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary-custom">Publicar</button>
-              </div>
-            </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  @endif
-  @endauth
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

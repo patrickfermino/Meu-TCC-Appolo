@@ -33,20 +33,20 @@ class PostPortfolioController extends Controller
 
 
         if (!Auth::check()) {
-            dd('Usuário não está autenticado.');
-        }
+             dd('Usuário não está autenticado.');
+         }
         // Verifica se é artista
-        if ($user->tipo_usuario != 2) {
-            abort(403, 'Acesso não autorizado.');
-        }
+         if ($user->tipo_usuario != 2) {
+             abort(403, 'Acesso não autorizado.');
+         }
 
-        // Busca o portfólio do artista
-        $portfolio = $user->portfolioArtista;
-        if (!$portfolio) {
-            return back()->with('error', 'Você precisa ter um portfólio antes de postar.');
-        }
+        
+         $portfolio = $user->portfolioArtista;
+         if (!$portfolio) {
+             return back()->with('error', 'Você precisa ter um portfólio antes de postar.');
+         }
 
-        // Valida dados
+        
         $request->validate([
             'nome' => 'required|string|max:255',
             'descricao' => 'required|string|max:1000',

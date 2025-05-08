@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('posts_imgs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('id_post');
-            $table->foreign('id_post')-> references('id')->on('posts_portfolio')->onDelete('cascade');
-            $table->longText('data')->charset('binary');
+            $table->unsignedBigInteger('post_id');
+            $table->foreign('post_id')->references('id')->on('posts_portfolio')->onDelete('cascade');
+            $table->longText('caminho_imagem')->charset('binary');
             $table->softDeletes();
 
         });

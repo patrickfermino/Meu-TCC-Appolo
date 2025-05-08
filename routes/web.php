@@ -61,6 +61,8 @@ Route::get('/solicitantes', function () {
     return view('contratantes');
 });
 
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
@@ -107,6 +109,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+Route::get('/artistas', [UsuarioController::class, 'listarPublico'])->name('usuarios.publico');
 
 Route::get('/perfil/{id}', [UsuarioController::class, 'showPublic'])->name('usuarios.public');
 

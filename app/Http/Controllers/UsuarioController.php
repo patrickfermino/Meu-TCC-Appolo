@@ -13,6 +13,7 @@ use App\Models\CategoriaArtistica;
 
 
 
+
 class UsuarioController extends Controller
 {
     /**
@@ -198,6 +199,30 @@ class UsuarioController extends Controller
         //
     }
 
+
+    
+public function listarPublico(Request $request)
+{
+    $query = Usuario::where('tipo_usuario', 2) 
+        ->with(['categoriasArtisticas']) // eager loading
+        ->whereNotNull('nome'); // garantir que o cadastro está completo
+
+    if ($request->filled('categoria')) {
+        $categoriaId = $request->categoria;
+        $query->whereHas('categoriasArtisticas', function ($q) use ($categoriaId) {
+            $q->where('categoria_artistica_id', $categoriaId);
+        });
+    }
+
+    if ($request->filled('cidade')) {
+        $query->where('cidade', 'like', '%' . $request->cidade . '%');
+    }
+
+    $usuarios = $query->get();
+    $categorias = CategoriaArtistica::all();
+
+    return view('artistas', compact('usuarios', 'categorias'));
+}
 
     
 
