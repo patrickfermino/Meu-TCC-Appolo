@@ -10,7 +10,7 @@
     
 <nav class="navbar navbar-expand-lg fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand me-auto " href="home">Appolo</a>
+    <a class="navbar-brand me-auto " href={{ route('homepage') }}>Appolo</a>
     
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">

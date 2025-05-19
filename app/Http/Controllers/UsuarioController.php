@@ -203,14 +203,14 @@ class UsuarioController extends Controller
     
 public function listarPublico(Request $request)
 {
-    $query = Usuario::where('tipo_usuario', 2) 
-        ->with(['categoriasArtisticas']) // eager loading
-        ->whereNotNull('nome'); // garantir que o cadastro está completo
+    $query = Usuario::where('tipo_usuario', 2)
+        ->with(['categoriasArtisticas'])
+        ->whereNotNull('nome');
 
     if ($request->filled('categoria')) {
         $categoriaId = $request->categoria;
         $query->whereHas('categoriasArtisticas', function ($q) use ($categoriaId) {
-            $q->where('categoria_artistica_id', $categoriaId);
+            $q->where('categorias_usuarios.id_categoria', $categoriaId);
         });
     }
 
@@ -221,7 +221,12 @@ public function listarPublico(Request $request)
     $usuarios = $query->get();
     $categorias = CategoriaArtistica::all();
 
-    return view('artistas', compact('usuarios', 'categorias'));
+    $cidades = Usuario::whereNotNull('cidade')
+    ->where('tipo_usuario', 2)
+    ->distinct()
+    ->pluck('cidade');
+
+    return view('artistas', compact('usuarios', 'categorias', 'cidades'));
 }
 
     

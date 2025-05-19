@@ -18,9 +18,9 @@
 <link rel="stylesheet" href="{{ asset('css/usuarios_publicos.css') }}"> {{-- opcional --}}
 
 <div class="container mt-5">
-    <form method="GET" action="{{ route('usuarios.publico') }}" class="row mb-4">
-        <div class="col-md-5">
-            <select name="categoria" class="form-control">
+    <form method="GET" action="{{ route('usuarios.publico') }}" class="row mb-4 " id="filtroForm">
+        <div class="col-md-5 w-50">
+            <select name="categoria" class="form-control" onchange="document.getElementById('filtroForm').submit();">
                 <option value="">Todas as categorias</option>
                 @foreach($categorias as $categoria)
                     <option value="{{ $categoria->id }}" {{ request('categoria') == $categoria->id ? 'selected' : '' }}>
@@ -29,11 +29,16 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-md-5">
-            <input type="text" name="cidade" class="form-control" placeholder="Buscar por cidade..." value="{{ request('cidade') }}">
-        </div>
-        <div class="col-md-2">
-            <button class="btn btn-outline-custom" type="submit">Filtrar</button>
+
+        <div class="col-md-5 w-50">
+            <select name="cidade" class="form-control" onchange="document.getElementById('filtroForm').submit();">
+                <option value="">Todas as cidades</option>
+                @foreach($cidades as $cidade)
+                    <option value="{{ $cidade }}" {{ request('cidade') == $cidade ? 'selected' : '' }}>
+                        {{ $cidade }}
+                    </option>
+                @endforeach
+            </select>
         </div>
     </form>
 

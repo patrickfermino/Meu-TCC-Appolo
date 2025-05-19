@@ -51,7 +51,7 @@ Route::get('/login', function () {
 
 Route::get('/home', function () {
     return view('home');
-});
+})->name('homepage');
 
 Route::get('/', function () {
     return view('home');
