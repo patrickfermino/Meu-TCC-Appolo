@@ -1,22 +1,23 @@
 <?php
 
-namespace Database\Seeders;
 
+
+namespace Database\Seeders;
+use Database\Seeders\tipo_usuario;
+use Database\Seeders\sexo_usuario;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
-    {
-        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-    }
+public function run(): void
+{
+    $this->call([
+        tipo_usuario::class,
+        sexo_usuario::class,
+    ]);
+}
+    
 }
