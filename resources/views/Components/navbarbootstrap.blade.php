@@ -27,7 +27,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link mx-lg-2" href="solicitantes">Solicitantes</a>
+            <a class="nav-link mx-lg-2" href="{{ route('usuarios.contratantes') }}">Solicitantes</a>
           </li>
 
           <li class="nav-item">

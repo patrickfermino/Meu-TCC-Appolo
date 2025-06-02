@@ -8,8 +8,10 @@ use App\Http\Controllers\{
     UsuarioController,
     TipoUsuarioController,
     PortfolioArtistaController,
-    ProfileController, PostPortfolioController
+    ProfileController,
+    PostPortfolioController
 };
+use App\Http\Controllers\PropostaContratoController;
 use Illuminate\Http\Request;
 
 
@@ -57,10 +59,7 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/solicitantes', function () {
-    return view('contratantes');
-});
-
+Route::get('/solicitantes', [UsuarioController::class, 'listarContratantes'])->name('usuarios.contratantes');
 
 
 Route::get('/dashboard', function () {
@@ -108,8 +107,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/posts', [PostPortfolioController::class, 'store'])->name('posts.store');
 });
 
+//proposta de trampo
+Route::post('/propostas', [PropostaContratoController::class, 'store'])
+    ->middleware('auth')
+    ->name('propostas.store');
 
+
+//listagem dos usuários
 Route::get('/artistas', [UsuarioController::class, 'listarPublico'])->name('usuarios.publico');
+
+
 
 Route::get('/perfil/{id}', [UsuarioController::class, 'showPublic'])->name('usuarios.public');
 

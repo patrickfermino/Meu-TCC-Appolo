@@ -71,9 +71,33 @@
     <a href="{{$portfolio->link_behance ?? ''}}" class="text-primary fs-4 me-3" target="_blank">
       <i class="bi bi-link-45deg"></i>
     </a>
- 
+
+ @auth
+    @if(Auth::user()->tipo_usuario == 3)
+        @if($usuario->portfolioArtista)
+            <!-- Botão para contratantes logados, artista com portfólio -->
+            <button class="btn btn-outline-custom mt-3" data-bs-toggle="modal" data-bs-target="#modalPropostaContrato">
+                Contratar
+            </button>
+        @else
+            <!-- Artista ainda não criou o portfólio -->
+            <button class="btn btn-outline-custom mt-3" disabled>
+                Artista com cadastro incompleto
+            </button>
+        @endif
+    @endif
+@else
+    <!-- Botão para quem não está logado -->
+    <a href="{{ url('/cadastro/contratante') }}" class="btn btn-outline-custom mt-3">
+        Cadastre-se para contratar
+    </a>
+@endauth
   
+
 </div>
+
+
+
           <div class="rating bg-primary bg-opacity-10 d-inline-flex align-items-center px-3 py-1 rounded-pill">
             <span class="fw-bold me-2"> 5 </span>
             <div class="stars">
@@ -87,24 +111,17 @@
           </div>
 
           @auth
-            @if(Auth::user()->tipo_usuario == 2)
-            @php
+            @if(auth()->user()->id === $usuario->id && auth()->user()->tipo_usuario == 2)
+              @php
               $portfolio = Auth::user()->portfolioArtista ?? null;
-            @endphp
-
-                  <button class="btn btn-outline-custom" data-bs-toggle="modal" data-bs-target="#editModalportfolio">
-                      <i class="bi bi-pencil"></i>
-                  {{ $portfolio ? 'Editar Portfólio' : 'Criar Portfólio' }}
-                  </button>
-
-
-
-                 
-        
-
+              @endphp
+                      <button class="btn btn-outline-custom" data-bs-toggle="modal" data-bs-target="#editModalportfolio">
+                        <i class="bi bi-pencil"></i>
+                        {{ $portfolio ? 'Editar Portfólio' : 'Criar Portfólio' }}
+                      </button>
             
-              @endif
-            @endauth
+            @endif
+          @endauth
 
  <!-- Mostrar as categorias aqui  -->
             
@@ -254,8 +271,9 @@
   </div>
 @endif
 
+ < <!-- MODAIS DE CADASTRO ABAIXO : -->
 
-
+ <!-- Modal de Post -->
 
 @auth
     @if(Auth::user()->tipo_usuario == 2)
@@ -323,6 +341,42 @@
         </div>
     </div>
 </div>
+
+@if($usuario->portfolioArtista)
+<!-- Modal Proposta de Contrato -->
+<div class="modal fade" id="modalPropostaContrato" tabindex="-1" aria-labelledby="modalPropostaContratoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form action="{{ route('propostas.store') }}" method="POST">
+      @csrf
+      <input type="hidden" name="id_artista" value="{{ $usuario->portfolioArtista->id }}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalPropostaContratoLabel">Enviar Proposta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="titulo" class="form-label">Título</label>
+            <input type="text" class="form-control" name="titulo" required>
+          </div>
+          <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição da Proposta</label>
+            <textarea name="descricao" class="form-control" rows="4" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="data" class="form-label">Data desejada</label>
+            <input type="datetime-local" class="form-control" name="data" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-outline-custom">Enviar Proposta</button>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+@endif
 
 
         

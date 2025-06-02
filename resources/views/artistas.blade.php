@@ -19,7 +19,9 @@
 
 <div class="container mt-5">
     <form method="GET" action="{{ route('usuarios.publico') }}" class="row mb-4 " id="filtroForm">
-        <div class="col-md-5 w-50">
+       
+    
+    <div class="col-md-5 w-50">
             <select name="categoria" class="form-control" onchange="document.getElementById('filtroForm').submit();">
                 <option value="">Todas as categorias</option>
                 @foreach($categorias as $categoria)

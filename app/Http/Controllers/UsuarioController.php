@@ -199,7 +199,7 @@ class UsuarioController extends Controller
         //
     }
 
-
+//listar artistas no site 
     
 public function listarPublico(Request $request)
 {
@@ -230,6 +230,25 @@ public function listarPublico(Request $request)
 }
 
     
+//listar contratantes no site 
+
+public function listarContratantes(Request $request)
+{
+    $usuarios = Usuario::where('tipo_usuario', 3)
+        ->when($request->cidade, function ($query) use ($request) {
+            $query->where('cidade', $request->cidade);
+        })
+        ->get();
+
+    $cidades = Usuario::where('tipo_usuario', 3)
+        ->whereNotNull('cidade')
+        ->pluck('cidade')
+        ->unique()
+        ->sort()
+        ->values();
+
+    return view('contratantes', compact('usuarios', 'cidades'));
+}
 
     //editar e add foto de perfil 
     

@@ -17,19 +17,11 @@
 <link rel="stylesheet" href="{{ asset('css/usuarios_publicos.css') }}"> {{-- opcional --}}
 
 <div class="container mt-5">
-    <form method="GET" action="{{ route('usuarios.publico') }}" class="row mb-4 " id="filtroForm">
-        <div class="col-md-5 w-50">
-            <select name="categoria" class="form-control" onchange="document.getElementById('filtroForm').submit();">
-                <option value="">Todas as categorias</option>
-                @foreach($categorias as $categoria)
-                    <option value="{{ $categoria->id }}" {{ request('categoria') == $categoria->id ? 'selected' : '' }}>
-                        {{ $categoria->nome }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+   <form method="GET" action="{{ route('usuarios.contratantes') }}" class="row mb-4 " id="filtroForm">
 
-        <div class="col-md-5 w-50">
+        <div class="col-md-5 w-100">
+         
+        <div class="col-md-5 w-100">
             <select name="cidade" class="form-control" onchange="document.getElementById('filtroForm').submit();">
                 <option value="">Todas as cidades</option>
                 @foreach($cidades as $cidade)
@@ -40,6 +32,7 @@
             </select>
         </div>
     </form>
+    <div class="container p-3"> 
 
     @foreach ($usuarios as $usuario)
         <div class="card mb-4 p-3 shadow-sm">
@@ -53,9 +46,7 @@
                         {{ \Carbon\Carbon::parse($usuario->data_nasc)->age }} anos<br>
                         {{ $usuario->cidade ?? 'Cidade não informada' }}
                     </p>
-                    <p class="mb-0">
-                        {{ $usuario->categoriasArtisticas->pluck('nome')->implode(', ') }}
-                    </p>
+                  
                     <div class="mt-1">
                   
                         <strong>5 </strong> ⭐ 
@@ -68,6 +59,7 @@
             </div>
         </div>
     @endforeach
+</div>
 </div>
 </div> 
 
