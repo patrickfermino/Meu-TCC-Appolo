@@ -95,13 +95,19 @@ class UsuarioController extends Controller
     
     public function showPerfilPublico($id)
     {
+        
         $usuario = Usuario::with('portfolioArtista.posts.imagens', 'categoriasArtisticas')->findOrFail($id);
         $posts = $usuario->portfolioArtista->posts ?? collect();
     
+        $portfolio = $usuario->portfolioArtista; 
+
         $categorias = CategoriaArtistica::all();
         $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
+
+        
+
+            return view('usuarios.perfil_publico', compact('usuario', 'posts', 'categorias', 'categoriasSelecionadas', 'portfolio'));
     
-        return view('usuarios.perfil_publico', compact('usuario', 'posts', 'categorias', 'categoriasSelecionadas'));
     }
 
 
@@ -156,15 +162,17 @@ class UsuarioController extends Controller
 
     $request->validate([
         'nome' => 'required|string|max:255',
+        'telefone' => 'nullable|string|max:20',
         'cidade' => 'nullable|string|max:255',
         'cep' => 'nullable|string|max:20',
         'bairro' => 'nullable|string|max:255',
         'endereco' => 'nullable|string|max:255',
         'senha' => 'nullable|string|min:8|confirmed',
-        'foto_perfil' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'foto_perfil' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
     ]);
 
     $usuario->nome = $request->nome;
+    $usuario->telefone = $request->telefone;
     $usuario->cidade = $request->cidade;
     $usuario->cep = $request->cep;
     $usuario->bairro = $request->bairro;

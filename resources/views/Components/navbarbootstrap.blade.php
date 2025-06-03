@@ -44,6 +44,33 @@
     $user = Auth::user();
   @endphp
 
+@if(auth()->check() && (auth()->user()->tipo_usuario == 2 || auth()->user()->tipo_usuario == 3))
+<li class="nav-item dropdown">
+    <a class="nav-link position-relative" href="#" id="notificacoesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="carregarNotificacoes()">
+        <i class="bi bi-bell fs-4"></i>
+        @php
+            $naoLidas = \App\Models\Notificacao::where('usuario_id', Auth::id())->where('lida', false)->count();
+        @endphp
+        @if($naoLidas > 0)
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="contadorNotificacoes">
+                {{ $naoLidas }}
+            </span>
+        @endif
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="notificacoesDropdown" id="listaNotificacoes">
+        @php
+            $notificacoes = \App\Models\Notificacao::where('usuario_id', Auth::id())->latest()->take(5)->get();
+        @endphp
+        @forelse($notificacoes as $notificacao)
+            <li class="dropdown-item">{{ $notificacao->mensagem }}</li>
+        @empty
+            <li class="dropdown-item text-muted">Sem notificações</li>
+        @endforelse
+    </ul>
+</li>
+@endif
+
+
   @auth
 
   <div class="actions d-flex gap-2">
@@ -52,6 +79,8 @@
             <i class="bi bi-plus-circle"></i> Post
           </button>
           @endif
+
+
 
           <button class="btn btn-outline-custom" data-bs-toggle="modal" data-bs-target="#editModal">
             <i class="bi bi-pencil"></i> Editar perfil
@@ -144,6 +173,10 @@
                           <label for="nome" class="form-label">Nome</label>
                            <input type="text" class="form-control" value="{{  Auth::user()->nome }}" name="nome" placeholder="Seu nome completo">
                          </div>
+                         <div class="mb-3">
+                          <label class="form-label">Telefone</label>
+                            <input type="text" name="telefone" class="form-control" value="{{ Auth::user()->telefone }}">
+                          </div>
           
             <div class="mb-3">
               <label class="form-label">Gênero</label>
@@ -264,7 +297,64 @@
 
   @endauth
 
+  <!-- Modal de Notificação de Proposta -->
+<div class="modal fade" id="modalPropostaNotificacao" tabindex="-1" aria-labelledby="modalPropostaNotificacaoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalPropostaNotificacaoLabel">Detalhes da Proposta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <h5 id="propostaTitulo"></h5>
+        <p><strong>De:</strong> <span id="propostaAutor"></span></p>
+        <p id="propostaDescricao"></p>
+        <p><strong>Data do serviço:</strong> <span id="propostaData"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
 
+<script>
+function carregarNotificacoes() {
+    fetch('/notificacoes')
+        .then(response => response.json())
+        .then(data => {
+            const lista = document.getElementById('listaNotificacoes');
+            const contador = document.getElementById('contadorNotificacoes');
+
+            lista.innerHTML = ''; // Limpa notificações
+
+            if (data.length === 0) {
+                lista.innerHTML = '<li class="dropdown-item text-muted">Nenhuma nova proposta</li>';
+                contador.style.display = 'none';
+                return;
+            }
+
+            contador.innerText = data.length;
+            contador.style.display = 'inline-block';
+
+
+            data.forEach(notificacao => {
+    const item = document.createElement('li');
+    item.className = 'dropdown-item';
+    item.textContent = `${notificacao.proposta.usuario_avaliador.nome} lhe enviou uma proposta de trabalho`;
+    item.style.cursor = 'pointer';
+
+    item.addEventListener('click', () => {
+        document.getElementById('propostaTitulo').innerText = notificacao.proposta.titulo;
+        document.getElementById('propostaAutor').innerText = notificacao.proposta.usuario_avaliador.nome;
+        document.getElementById('propostaDescricao').innerText = notificacao.proposta.descricao;
+        document.getElementById('propostaData').innerText = new Date(notificacao.proposta.data).toLocaleDateString('pt-BR');
+
+        new bootstrap.Modal(document.getElementById('modalPropostaNotificacao')).show();
+    });
+
+    lista.appendChild(item);
+});
+        });
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">

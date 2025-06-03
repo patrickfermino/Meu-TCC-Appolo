@@ -10,10 +10,65 @@
 
 @include('Components.navbarbootstrap')
 
+@if(session('success'))
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="text-nome" id="successModalLabel"> APPOLO </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  {{ session('success') }}
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal"> Fechar </button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+          successModal.show();
+      });
+  </script>
+@endif
+
 @php
-    $portfolio = Auth::check() ? Auth::user()->portfolioArtista : null;
+    $portfolio = $usuario->portfolioArtista;
 @endphp
 
+ 
+@if ($errors->any())
+      <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="text-nome" id="successModalLabel"> APPOLO </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                     @foreach ($errors->all() as $erro)
+                <li>{{ $erro }}</li>
+            @endforeach
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal"> Fechar </button>
+              </div>
+          </div>
+      </div>
+  </div>
+        <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+          successModal.show();
+      });
+  </script>
+       
+@endif
+        
 
 
 
@@ -39,28 +94,42 @@
 
 
 
+
+
+<div class="p-3"> 
+
 <section class="py-5">
     <div class="container" >
       <div class="row align-items-center">
         <div class="col-md-3 text-center text-md-start mb-4 mb-md-0">
-          <img src="{{ $usuario->foto_perfil ? asset('storage/' . $usuario->foto_perfil) : asset('imgs/user.jpg') }}" class="rounded-circle border border-4 border-tertiary shadow profile-img" alt="Perfil">
+          <img src="{{ $usuario->foto_perfil && file_exists(public_path('storage/' . $usuario->foto_perfil)) ? asset('storage/' . $usuario->foto_perfil) : asset('imgs/user.jpg') }}"  class="rounded-circle border border-4 border-tertiary shadow profile-img" alt="Perfil">
         </div>
         <div class="col-md-9">
           <h1 class="text-nome">{{ $usuario->nome }} </h1>
 
+          @if($usuario->tipo_usuario == 2)
          
           <h3 class="text-nome"> {{ $portfolio->nome_artistico ?? '' }} </h3> 
            
+          @endif
 
           <p class="text-muted"><i class="bi bi-calendar"></i> {{ $usuario->idade }} anos </p>
           <p class="text-muted"><i class="bi bi-geo-alt"></i>  {{ $usuario->cidade ?? 'Localidade não definida' }}  </p>
           <p><strong>Endereço:</strong> {{ $usuario->cep }}  , {{ $usuario->bairro }} , {{ $usuario->endereco }}</p>
           <p class="text-muted">
 
+             <i class="bi bi-telephone" ></i>
+                       {{ $usuario->telefone }}
+                </p>
+                
         
+               @if($usuario->tipo_usuario == 2)
           <i class="bi bi-brush"></i>
                        {{ $portfolio->descricao ?? 'Descrição do portfólio não disponível' }}
                 </p>
+              
+             
+                
                 <div class="social-icons my-3">
 
     <a href="{{$portfolio->link_instagram ?? '' }}" class="text-primary fs-4 me-3 text-decoration-none" target="_blank">
@@ -72,32 +141,34 @@
       <i class="bi bi-link-45deg"></i>
     </a>
 
- @auth
-    @if(Auth::user()->tipo_usuario == 3)
+
+
+</div>
+  @endif
+             
+@auth
+    @if(Auth::user()->tipo_usuario == 3 && $usuario->tipo_usuario == 2)
         @if($usuario->portfolioArtista)
             <!-- Botão para contratantes logados, artista com portfólio -->
-            <button class="btn btn-outline-custom mt-3" data-bs-toggle="modal" data-bs-target="#modalPropostaContrato">
+            <button class="btn btn-sm btn-outline-custom" data-bs-toggle="modal" data-bs-target="#modalPropostaContrato">
                 Contratar
             </button>
         @else
             <!-- Artista ainda não criou o portfólio -->
-            <button class="btn btn-outline-custom mt-3" disabled>
+            <button class="btn btn-sm btn-outline-custom" disabled>
                 Artista com cadastro incompleto
             </button>
         @endif
     @endif
+
 @else
     <!-- Botão para quem não está logado -->
-    <a href="{{ url('/cadastro/contratante') }}" class="btn btn-outline-custom mt-3">
+    <a href="{{ url('/cadastro/contratante') }}" class="btn btn-sm btn-outline-custom">
         Cadastre-se para contratar
     </a>
 @endauth
   
-
-</div>
-
-
-
+<!-- 
           <div class="rating bg-primary bg-opacity-10 d-inline-flex align-items-center px-3 py-1 rounded-pill">
             <span class="fw-bold me-2"> 5 </span>
             <div class="stars">
@@ -109,12 +180,10 @@
             </div>
             <span class="ms-2 text-muted">( ?? avaliações)</span>
           </div>
-
+-->
           @auth
             @if(auth()->user()->id === $usuario->id && auth()->user()->tipo_usuario == 2)
-              @php
-              $portfolio = Auth::user()->portfolioArtista ?? null;
-              @endphp
+           
                       <button class="btn btn-outline-custom" data-bs-toggle="modal" data-bs-target="#editModalportfolio">
                         <i class="bi bi-pencil"></i>
                         {{ $portfolio ? 'Editar Portfólio' : 'Criar Portfólio' }}
@@ -124,9 +193,11 @@
           @endauth
 
  <!-- Mostrar as categorias aqui  -->
-            
+ 
+ 
+          @if($usuario->tipo_usuario == 2)
             @if($usuario->categoriasArtisticas && $usuario->categoriasArtisticas->count() > 0)
-    <div class="mb-3">
+    <div class="mb-3 p-3">
     <label class="form-label">Categorias : </label>
         <div class="d-flex flex-wrap gap-2">
             @foreach ($usuario->categoriasArtisticas as $cat)
@@ -137,6 +208,7 @@
 @else
     <p class="text-muted">Nenhuma categoria selecionada</p>
 @endif
+@endif
         </div>
       </div>
     </div>
@@ -144,16 +216,21 @@
 
 
   </section>
+  </div>
+
+
+@if($usuario->tipo_usuario == 2 && isset($posts) && $posts->count() > 0)
+   <div class="p-3 align-itens-center text-center"> 
+    <h3 class="text-nome"> Portfólio 
+    </h3>
+  </div>
+
+ 
 
   <section class="py-4 bg-light">
   <div class="container">
     <div class="row g-4">
-
-    
-    @if(isset($posts) && $posts->count() > 0)
-
-
-      @foreach($posts as $post)
+  @foreach($posts as $post)
         <div class="col-md-4">
           <div class="card shadow-sm">
             <div id="carouselPost{{ $post->id }}" class="carousel slide" data-bs-ride="carousel">
@@ -245,8 +322,9 @@
 
       @else
 
-      @auth
-      @if(Auth::user()->tipo_usuario == 2)
+   @if($usuario->tipo_usuario == 2 && (!isset($posts) || $posts->count() == 0))
+  @auth
+    @if(Auth::user()->id === $usuario->id && Auth::user()->tipo_usuario == 2)
   <div class="col-12 text-center">
     <div class="card shadow-sm p-4">
       <h4 class="mb-3">Você ainda não tem posts</h4>
@@ -258,8 +336,10 @@
     </div>
   </div>
   
-  @endif
+     @endif
   @endauth
+@endif
+
 
   @if ($errors->any())
   <div class="alert alert-danger">
@@ -270,6 +350,10 @@
     </ul>
   </div>
 @endif
+
+
+
+
 
  < <!-- MODAIS DE CADASTRO ABAIXO : -->
 
@@ -344,8 +428,9 @@
 
 @if($usuario->portfolioArtista)
 <!-- Modal Proposta de Contrato -->
-<div class="modal fade" id="modalPropostaContrato" tabindex="-1" aria-labelledby="modalPropostaContratoLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade p-5 mx-auto" id="modalPropostaContrato" tabindex="-1" role="dialog" aria-labelledby="modalPropostaContratoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" style="margin: auto;">
+
     <form action="{{ route('propostas.store') }}" method="POST">
       @csrf
       <input type="hidden" name="id_artista" value="{{ $usuario->portfolioArtista->id }}">
@@ -373,13 +458,13 @@
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
         </div>
       </div>
+      
     </form>
   </div>
 </div>
 @endif
 
 
-        
             
   <!-- Modal Editar/Criar Portfolio -->
 

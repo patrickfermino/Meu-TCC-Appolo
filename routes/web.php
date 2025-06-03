@@ -11,6 +11,7 @@ use App\Http\Controllers\{
     ProfileController,
     PostPortfolioController
 };
+use App\Http\Controllers\NotificacaoController;
 use App\Http\Controllers\PropostaContratoController;
 use Illuminate\Http\Request;
 
@@ -78,7 +79,7 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('usuarios', UsuarioController::class);
 
-
+Route::get('/notificacoes', [NotificacaoController::class, 'index'])->middleware('auth');
 
 Route::get('/usuarios/{id}/perfil-publico', [UsuarioController::class, 'showPerfilPublico'])->name('usuarios.perfilPublico');
 
@@ -116,7 +117,7 @@ Route::post('/propostas', [PropostaContratoController::class, 'store'])
 //listagem dos usuários
 Route::get('/artistas', [UsuarioController::class, 'listarPublico'])->name('usuarios.publico');
 
-
+Route::post('/notificacoes/ler-todas', [NotificacaoController::class, 'lerTodas'])->name('notificacoes.lerTodas');
 
 Route::get('/perfil/{id}', [UsuarioController::class, 'showPublic'])->name('usuarios.public');
 

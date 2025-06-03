@@ -29,6 +29,7 @@ class Usuario extends Authenticatable
         'bairro',
         'endereco', 
         'cidade',
+        'telefone'
     ];
 
     protected $hidden = [
@@ -75,4 +76,9 @@ public function categoriasArtisticas()
     return $this->belongsToMany(CategoriaArtistica::class, 'categorias_usuarios', 'id_usuario', 'id_categoria');
 }
 
+
+public function notificacoes()
+{
+    return $this->hasMany(Notificacao::class);
+}
 }
