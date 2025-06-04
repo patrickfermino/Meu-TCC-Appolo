@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PropostaContrato;
+use App\Models\PortfolioArtista;
 use App\Models\Notificacao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,6 @@ public function store(Request $request)
         'data.after' => 'A data deve ser posterior à data atual.',
     ]);
 
-
     $proposta = PropostaContrato::create([
         'id_artista' => $request->id_artista,
         'id_usuario_avaliador' => Auth::id(),
@@ -42,18 +42,20 @@ public function store(Request $request)
         'status' => 'Aguardando resposta',
     ]);
 
+    $portfolio = PortfolioArtista::find($request->id_artista);
 
-    Notificacao::create([
-        'usuario_id' => $request->id_artista,
-         'remetente_id' => Auth::id(),   
-        'mensagem' => "Você recebeu uma nova proposta: {$request->titulo}",
-        'lida' => false,
-        'proposta_id' => $proposta->id,  
-    ]);
+    if ($portfolio && $portfolio->usuario) {
+        Notificacao::create([
+            'usuario_id' => $portfolio->usuario->id,  // <-- agora está correto
+            'remetente_id' => Auth::id(),
+            'mensagem' => "Você recebeu uma nova proposta: {$request->titulo}",
+            'lida' => false,
+            'proposta_id' => $proposta->id,
+        ]);
+    }
 
     return redirect()->back()->with('success', 'Proposta enviada com sucesso!');
 }
-
 
 
 
