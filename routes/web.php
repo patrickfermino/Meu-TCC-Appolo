@@ -113,7 +113,7 @@ Route::post('/propostas', [PropostaContratoController::class, 'store'])
     ->middleware('auth')
     ->name('propostas.store');
     
-Route::post('/responder-proposta', [App\Http\Controllers\PropostaContratoController::class, 'responder'])->name('proposta.responder');
+Route::post('/responder-proposta/{id}', [App\Http\Controllers\PropostaContratoController::class, 'responder'])->name('proposta.responder');
 
 //listagem dos usuários
 Route::get('/artistas', [UsuarioController::class, 'listarPublico'])->name('usuarios.publico');

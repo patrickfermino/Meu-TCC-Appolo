@@ -36,17 +36,15 @@
 
         </ul>
 
+ <div class="d-flex justify-content-end gap-2 mt-auto position-relative bottom-0 end-0 p-3">
         
-  <div class="d-flex justify-content-end gap-2 mt-auto position-relative bottom-0 end-0 p-3">
- 
-
   @php
     $user = Auth::user();
   @endphp
 
 @if(auth()->check() && (auth()->user()->tipo_usuario == 2 || auth()->user()->tipo_usuario == 3))
-<li class="dropdown dropdown-menu-start" style="list-style: none;" >
-    <a class="position-relative icon_nav dropdown-menu-start"  href="#" id="notificacoesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="carregarNotificacoes()">
+<li class="dropdown dropleft" style="list-style: none;" >
+    <a class="position-relative icon_nav "  href="#" id="notificacoesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="carregarNotificacoes()">
         <i class="bi bi-bell fs-4" ></i>
         @php
             $naoLidas = \App\Models\Notificacao::where('usuario_id', Auth::id())->where('lida', false)->count();
@@ -57,7 +55,7 @@
             </span>
         @endif
     </a>
-    <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="notificacoesDropdown" id="listaNotificacoes">
+    <ul class="dropdown-menu dropleft" aria-labelledby="notificacoesDropdown" id="listaNotificacoes">
         @php
             $notificacoes = \App\Models\Notificacao::where('usuario_id', Auth::id())->latest()->take(5)->get();
         @endphp
@@ -69,6 +67,11 @@
     </ul>
 </li>
 @endif
+</div>
+
+        
+  <div class="d-flex justify-content-end gap-2 mt-auto position-relative bottom-0 end-0 p-3">
+ 
 
 
   @auth
@@ -272,7 +275,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title nav-link" id="postModalLabel">Novo Post</h5>
+          <h5 class="modal-title  botao_home" id="postModalLabel" style="text-transform: uppercase;">Novo Post</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
