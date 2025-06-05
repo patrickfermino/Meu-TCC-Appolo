@@ -119,29 +119,41 @@ public function store(Request $request)
 public function responder(Request $request, $id)
 {
     $proposta = PropostaContrato::findOrFail($id);
-    
+
     $resposta = $request->input('resposta'); // 'aceitar' ou 'recusar'
-    $hoje = now()->toDateString();
-    $data_execucao = $proposta->data_execucao;
+
+    
+    if ($proposta->id_artista !== auth()->id()) {
+    abort(403, 'Acesso não autorizado.');
+
 
     if ($resposta === 'recusar') {
         $proposta->status = 'Recusada';
-    } elseif ($resposta === 'aceitar') {
-        $proposta->status = $data_execucao > $hoje ? 'Aguardando execução' : 'Finalizada';
+
+    } else {
+        return redirect()->back()->with('error', 'Resposta inválida.');
     }
 
+}
     $proposta->save();
 
-    // criar notificação para contratante
+    // Mensagem personalizada
+    $mensagem = $resposta === 'recusar'
+        ? "Sua proposta '{$proposta->titulo}' foi recusada pelo artista {$proposta->artista->nome}."
+        : "Sua proposta '{$proposta->titulo}' foi aprovada por {$proposta->artista->nome} e será executada em {$data_execucao}. Telefone para contato: {$proposta->artista->telefone}.";
+
+    // Criar notificação para o contratante
     Notificacao::create([
         'user_id' => $proposta->id_contratante,
-        'mensagem' => $resposta === 'recusar'
-            ? "Sua proposta '{$proposta->titulo}' foi recusada pelo artista {$proposta->artista->nome}."
-            : "Sua proposta '{$proposta->titulo}' foi aprovada por {$proposta->artista->nome} e será executada em {$data_execucao}. Telefone: {$proposta->artista->telefone}"
+        'mensagem' => $mensagem,
     ]);
 
-    return redirect()->back()->with('success', 'Resposta registrada.');
+    return redirect()->back()->with('success', 'Resposta registrada com sucesso.');
 }
+
+
+
+
 
 public function lerTodas()
 {

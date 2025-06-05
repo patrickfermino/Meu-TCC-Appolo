@@ -20,7 +20,7 @@
 
         <div class="form-section" id="formulario-login" >
         
-            <h1 class="form-title">Artista</h1>
+            <h1 class="form-title">Cadastre-se Artista !</h1>
             <form action="{{ route('usuarios.storeArtista') }}" method="POST">
                 @csrf
 

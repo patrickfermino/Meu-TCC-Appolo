@@ -48,7 +48,7 @@
         <div class="card mb-4 p-3 shadow-sm">
             <div class="row align-items-center">
                 <div class="col-auto">
-                <img src="{{ $usuario->foto_perfil ? asset('storage/' . $usuario->foto_perfil) : asset('imgs/user.jpg') }}" class="rounded-circle" width="80" height="60">
+                <img src="{{ $usuario->foto_perfil ? asset('storage/' . $usuario->foto_perfil) : asset('imgs/user.jpg') }}" class="rounded-circle" width="100" height="100">
                 </div>
                 <div class="col-md-8">
                     <h5>{{ $usuario->nome }}</h5>
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="col-md-2 text-end">
-                    <a href="{{ route('usuarios.perfilPublico', $usuario->id) }}" class="btn btn-purple">Ver perfil</a>
+                    <a href="{{ route('usuarios.perfilPublico', $usuario->id) }}" class="btn btn-purple btn-outline-custom">Ver perfil</a>
                 </div>
             </div>
         </div>

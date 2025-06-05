@@ -45,19 +45,19 @@
   @endphp
 
 @if(auth()->check() && (auth()->user()->tipo_usuario == 2 || auth()->user()->tipo_usuario == 3))
-<li class="nav-item dropdown">
-    <a class="nav-link position-relative" href="#" id="notificacoesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="carregarNotificacoes()">
-        <i class="bi bi-bell fs-4"></i>
+<li class="dropdown dropdown-menu-start" style="list-style: none;" >
+    <a class="position-relative icon_nav dropdown-menu-start"  href="#" id="notificacoesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="carregarNotificacoes()">
+        <i class="bi bi-bell fs-4" ></i>
         @php
             $naoLidas = \App\Models\Notificacao::where('usuario_id', Auth::id())->where('lida', false)->count();
         @endphp
         @if($naoLidas > 0)
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="contadorNotificacoes">
+            <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-secondary" id="contadorNotificacoes">
                 {{ $naoLidas }}
             </span>
         @endif
     </a>
-    <ul class="dropdown-menu" aria-labelledby="notificacoesDropdown" id="listaNotificacoes">
+    <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="notificacoesDropdown" id="listaNotificacoes">
         @php
             $notificacoes = \App\Models\Notificacao::where('usuario_id', Auth::id())->latest()->take(5)->get();
         @endphp
@@ -138,8 +138,8 @@
 
       <div class="modal-body button-group" >
 
-      <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3" href="cadastro/artista">Cadastro Artista</a></li>
-      <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3" href="cadastro/contratante">Cadastro Solicitante</a></li>
+      <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3" href="{{ route('usuarios.createArtista') }}">Cadastro Artista</a></li>
+      <li class="botao-nav" id="li-nav"><a class="btn btn-primary-custom ms-3" href="{{ route('usuarios.createContratante') }}">Cadastro Solicitante</a></li>
 
       </div>
       </div>
@@ -155,7 +155,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title " id="editModalLabel">Editar Perfil</h5>
+          <h5 class="modal-title botao_home" style="text-transform: uppercase;" id="editModalLabel">Editar Perfil</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -164,10 +164,18 @@
                         @method('PUT')
 
 
-                        <div class="mb-3">
-                            <label for="foto_perfil" class="form-label">Foto de Perfil</label>
-                            <input type="file" name="foto_perfil" class="form-control">
-                        </div>
+                        <div class="mb-3 text-center">
+    <label for="foto_perfil" style="cursor: pointer;">
+        <img id="previewFotoPerfil"
+            src="{{ Auth::user()->foto_perfil ? asset('storage/' . Auth::user()->foto_perfil) : asset('imgs/user.jpg') }}"
+            class="rounded-circle shadow"
+            alt="Foto de Perfil"
+            style="width: 120px; height: 120px; object-fit: cover; border: 2px solid #ccc;"
+        >
+    </label>
+    <input type="file" id="foto_perfil" name="foto_perfil" class="d-none" onchange="previewImagem(event)">
+    <div class="form-text">Clique na imagem para alterar sua foto de perfil</div>
+</div>
 
                         <div class="mb-3">
                           <label for="nome" class="form-label">Nome</label>
@@ -243,6 +251,19 @@
   </div>
   
 
+  <script>
+    function previewImagem(event) {
+        const input = event.target;
+        const preview = document.getElementById('previewFotoPerfil');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 
   @auth
     @if(Auth::user()->tipo_usuario == 2)
@@ -302,18 +323,71 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalPropostaNotificacaoLabel">Detalhes da Proposta</h5>
+        <h5 class="modal-title botao_home" style="text-transform: uppercase;"id="modalPropostaNotificacaoLabel">Detalhes da Proposta</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
-      <div class="modal-body">
-        <h5 id="propostaTitulo"></h5>
-        <p><strong>De:</strong> <span id="propostaAutor"></span></p>
-        <p id="propostaDescricao"></p>
-        <p><strong>Data do serviço:</strong> <span id="propostaData"></span></p>
-      </div>
+     <div class="modal-body">
+    <h5 id="propostaTitulo"></h5>
+    <p><strong>De:</strong> <span id="propostaAutor"></span></p>
+    <p id="propostaDescricao"></p>
+    <p><strong>Data do serviço:</strong> <span id="propostaData"></span></p>
+
+    <hr>
+
+    <form id="respostaPropostaForm">
+        <div class="mb-3">
+            <label for="motivoResposta" class="form-label"> Informe abaixo mais detalhes sobre a prestação do serviço caso aceite ou o motivo caso recuse:</label>
+            <textarea class="form-control" id="motivoResposta" name="motivo" rows="3" required></textarea>
+        </div>
+
+        <input type="hidden" id="propostaId" name="proposta_id">
+
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-outline-custom me-2" onclick="responderProposta('recusada')">Recusar</button>
+            <button type="button" class="btn btn-primary-custom" onclick="responderProposta('aceita')">Aceitar</button>
+        </div>
+    </form>
+</div>
     </div>
   </div>
 </div>
+
+
+<script>
+function responderProposta(status) {
+    const propostaId = document.getElementById('propostaId').value;
+    const motivo = document.getElementById('motivoResposta').value;
+
+    if (!motivo.trim()) {
+        alert("Por favor, informe o motivo.");
+        return;
+    }
+    console.log({ propostaId, motivo, status });
+
+    fetch(`/responder-proposta/${propostaId}`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+            proposta_id: propostaId,
+            motivo: motivo,
+            status: status
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("Resposta registrada com sucesso.");
+            location.reload(); // ou atualize a lista de notificações
+        }
+    })
+    .catch(err => console.error("Erro ao responder proposta:", err));
+}
+</script>
+
+
 
 <script>
 function carregarNotificacoes() {
@@ -342,13 +416,14 @@ function carregarNotificacoes() {
     item.style.cursor = 'pointer';
 
     item.addEventListener('click', () => {
-        document.getElementById('propostaTitulo').innerText = notificacao.proposta.titulo;
-        document.getElementById('propostaAutor').innerText = notificacao.proposta.usuario_avaliador.nome;
-        document.getElementById('propostaDescricao').innerText = notificacao.proposta.descricao;
-        document.getElementById('propostaData').innerText = new Date(notificacao.proposta.data).toLocaleDateString('pt-BR');
+    document.getElementById('propostaTitulo').innerText = notificacao.proposta.titulo;
+    document.getElementById('propostaAutor').innerText = notificacao.proposta.usuario_avaliador.nome;
+    document.getElementById('propostaDescricao').innerText = notificacao.proposta.descricao;
+    document.getElementById('propostaData').innerText = new Date(notificacao.proposta.data).toLocaleDateString('pt-BR');
+    document.getElementById('propostaId').value = notificacao.proposta.id;
 
-        new bootstrap.Modal(document.getElementById('modalPropostaNotificacao')).show();
-    });
+    new bootstrap.Modal(document.getElementById('modalPropostaNotificacao')).show();
+});
 
     lista.appendChild(item);
 });

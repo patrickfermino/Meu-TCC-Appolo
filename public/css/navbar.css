@@ -70,6 +70,7 @@
 }
 
 
+
 .nav-link {
     color: #544468 !important;
     font-weight: 500 !important;
@@ -89,6 +90,15 @@
     border-left: 100px !important;
     transition: 0.3s    color;
     text-decoration: none !important;
+}
+
+.icon_nav{
+    color: var(--roxo-appolo)
+}
+
+.botao_home{
+     font-family: "Jost", sans-serif !important;
+     color: var(--roxo-appolo)
 }
 
 

@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
+<main>
 @include('Components.navbarbootstrap')
 
 @if(session('success'))
@@ -428,8 +428,9 @@
 
 @if($usuario->portfolioArtista)
 <!-- Modal Proposta de Contrato -->
-<div class="modal fade p-5 mx-auto" id="modalPropostaContrato" tabindex="-1" role="dialog" aria-labelledby="modalPropostaContratoLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-sm" style="margin: auto;">
+<div class="modal fade p-5 mx-auto modal_proposta" id="modalPropostaContrato" tabindex="-1" role="dialog" aria-labelledby="modalPropostaContratoLabel" aria-hidden="true">
+ <div class="modal-dialog modal-lg" style="max-width: 60%; margin: auto;">
+
 
     <form action="{{ route('propostas.store') }}" method="POST">
       @csrf
@@ -535,9 +536,12 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    </main>
+</body>
 
 @include('Components.footer')
+</html>
+
