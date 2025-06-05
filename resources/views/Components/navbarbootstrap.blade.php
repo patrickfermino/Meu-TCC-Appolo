@@ -1,13 +1,17 @@
-
+<html> 
+  <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Appolo')</title>
     <link  href="css/navbar.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
-
+</head>
     
+<body> 
 <nav class="navbar navbar-expand-lg fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand me-auto " href={{ route('homepage') }}>Appolo</a>
@@ -95,7 +99,7 @@
     </button>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownProfile">
     <li><a class="dropdown-item" href="{{ route('usuarios.perfilPublico', Auth::user()->id) }}">Perfil</a></li>
-
+    <li><a class="dropdown-item" href="{{ route('propostas.minhas') }}">Minhas Propostas</a></li>
       <li>
         <form action="{{ route('logout') }}" method="POST">
           @csrf
@@ -354,42 +358,47 @@
     </div>
   </div>
 </div>
-
-
 <script>
-function responderProposta(status) {
-    const propostaId = document.getElementById('propostaId').value;
-    const motivo = document.getElementById('motivoResposta').value;
+  function responderProposta(status) {
+      const propostaId = document.getElementById('propostaId').value;
+      const motivo = document.getElementById('motivoResposta').value;
 
-    if (!motivo.trim()) {
-        alert("Por favor, informe o motivo.");
-        return;
-    }
-    console.log({ propostaId, motivo, status });
+      if (!motivo.trim()) {
+          alert("Por favor, informe o motivo.");
+          return;
+      }
 
-    fetch(`/responder-proposta/${propostaId}`, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify({
-            proposta_id: propostaId,
-            motivo: motivo,
-            status: status
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            alert("Resposta registrada com sucesso.");
-            location.reload(); // ou atualize a lista de notificações
-        }
-    })
-    .catch(err => console.error("Erro ao responder proposta:", err));
-}
+      fetch(`/responder-proposta/${propostaId}`, {
+          method: "POST",
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          },
+          body: JSON.stringify({
+              status: status,
+              motivo: motivo
+          })
+      })
+      .then(res => {
+          if (!res.ok) {
+              return res.json().then(json => Promise.reject(json));
+          }
+          return res.json();
+      })
+      .then(data => {
+          if (data.success) {
+              alert("Resposta registrada com sucesso.");
+              location.reload();
+          } else {
+              alert(data.mensagem || "Ocorreu um erro ao processar a resposta.");
+          }
+      })
+      .catch(error => {
+          console.error('Erro ao responder proposta:', error);
+          alert(error.mensagem || "Erro ao processar sua resposta.");
+      });
+  }
 </script>
-
 
 
 <script>
@@ -433,6 +442,10 @@ function carregarNotificacoes() {
         });
 }
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+</body> 
+    </html> 

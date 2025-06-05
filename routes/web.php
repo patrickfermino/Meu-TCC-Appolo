@@ -12,6 +12,7 @@ use App\Http\Controllers\{
     PostPortfolioController
 };
 use App\Http\Controllers\NotificacaoController;
+
 use App\Http\Controllers\PropostaContratoController;
 use Illuminate\Http\Request;
 
@@ -113,8 +114,13 @@ Route::post('/propostas', [PropostaContratoController::class, 'store'])
     ->middleware('auth')
     ->name('propostas.store');
     
-Route::post('/responder-proposta/{id}', [App\Http\Controllers\PropostaContratoController::class, 'responder'])->name('proposta.responder');
+Route::middleware('auth')->post('/responder-proposta/{id}', [PropostaContratoController::class, 'responder'])
+     ->name('proposta.responder');
 
+Route::middleware('auth')->get('/minhas-propostas', [PropostaContratoController::class, 'minhasPropostas'])->name('propostas.minhas');
+
+
+     
 //listagem dos usuários
 Route::get('/artistas', [UsuarioController::class, 'listarPublico'])->name('usuarios.publico');
 

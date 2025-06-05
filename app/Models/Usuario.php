@@ -68,7 +68,10 @@ public function portfolioArtista()
     return $this->hasOne(PortfolioArtista::class, 'id_usuario');
 }
 
-
+public function portfolio()
+{
+    return $this->hasOne(\App\Models\PortfolioArtista::class, 'id_usuario');
+}
 
 
 public function categoriasArtisticas()

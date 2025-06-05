@@ -15,7 +15,7 @@ public function up()
         $table->id();
         $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade');
         $table->foreignId('remetente_id')->nullable()->constrained('usuarios')->onDelete('set null');
-        $table->string('mensagem');
+        $table->text('mensagem');
         $table->foreignId('proposta_id')->constrained('proposta_contrato')->onDelete('cascade');
         $table->boolean('lida')->default(false);
         $table->timestamps();

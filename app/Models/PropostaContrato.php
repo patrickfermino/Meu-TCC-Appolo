@@ -19,6 +19,8 @@ class PropostaContrato extends Model
         'titulo',
         'descricao',
         'data',
+        'status',
+        'motivo',
     ];
 
     protected $dates = ['data', 'deleted_at'];
@@ -32,5 +34,7 @@ class PropostaContrato extends Model
     {
         return $this->belongsTo(Usuario::class, 'id_usuario_avaliador');
     }
+
+    
 
 }
