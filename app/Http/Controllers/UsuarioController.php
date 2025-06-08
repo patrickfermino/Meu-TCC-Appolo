@@ -62,8 +62,13 @@ class UsuarioController extends Controller
             'senha' => 'required|min:6',
             'data_nasc' => 'required|date',
             'sexo_usuario' => 'required|integer',
-        ]);
-    
+         ], [
+            'senha.required' => 'A senha é obrigatória.',
+            'senha.min' => 'Sua senha deve ter ao menos 6 caracteres.',
+            'email.required' => 'O email é obrigatório.',
+            'email.unique' => 'Esse email já está em uso.',
+            'documento.unique' => 'Esse documento já está cadastrado.',
+    ]);
         $usuario = new Usuario();
         $usuario->fill($request->except('senha'));
         $usuario->senha = Hash::make($request->senha);
