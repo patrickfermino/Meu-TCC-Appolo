@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ asset('css/cadastro.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+     <script src="https://unpkg.com/imask"></script>
 
 </head>
 @include('Components.navbarbootstrap')
@@ -39,46 +39,47 @@
                 <input type="password" name="senha" placeholder="Senha" required>
                 <input type="password" name="senha_confirmation" placeholder="Confirmar senha" required>
 
-                <button type="submit" class="submit-btn">Criar conta</button>
+                <button type="submit" class="submit-btn" onclick="onSalvar()">Criar conta</button>
 
                 <p class="login-link">Já tem conta? <a href="{{ route('login') }}">Conecte-se</a></p>
             </form>
         </div>
 <script>
-    const telefoneInput = document.getElementById('telefone');
+  
     const documentoInput = document.getElementById('documento');
     const form = document.getElementById('form-cadastro');
 
-   telefoneInput.addEventListener('input', function () {
-    let value = telefoneInput.value.replace(/\D/g, '');
 
-    if (value.length > 11) value = value.slice(0, 11);
+ document.getElementById('telefone').addEventListener('input', (event) => {
+            const input = document.getElementById('telefone');
 
-    let formatted = '';
+            const opts = {
+                mask: [
+                    {
+                        mask: '(00) 00000-0000',
+                    }
+                ],
+            };
 
-    if (value.length <= 10) {
-        formatted = value.replace(/(\d{0,2})(\d{0,4})(\d{0,4})/, function (_, p1, p2, p3) {
-            let res = '';
-            if (p1) res += '(' + p1;
-            if (p1.length === 2) res += ') ';
-            if (p2) res += p2;
-            if (p3) res += '-' + p3;
-            return res;
+            IMask(input, opts).on('accept', () => {
+                
+            });
+
         });
-    } else {
-        formatted = value.replace(/(\d{0,2})(\d{0,5})(\d{0,4})/, function (_, p1, p2, p3) {
-            let res = '';
-            if (p1) res += '(' + p1;
-            if (p1.length === 2) res += ') ';
-            if (p2) res += p2;
-            if (p3) res += '-' + p3;
-            return res;
-        });
-    }
 
-    telefoneInput.value = formatted;
-});
 
+//forata os dados para andar pro bakend
+         function onSalvar() {
+            const input = document.getElementById('telefone');
+            const valor = input.value
+                .replace("(", "")
+                .replace(")", "")
+                .replace(" ", "")
+                .replace("-", "");
+
+            console.log(">>>", valor);
+        }
+   
     // Máscara de CPF/CNPJ
     documentoInput.addEventListener('input', function () {
         let value = documentoInput.value.replace(/\D/g, '');

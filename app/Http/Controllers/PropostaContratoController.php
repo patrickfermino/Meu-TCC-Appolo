@@ -43,7 +43,7 @@ class PropostaContratoController extends Controller
             'status' => 'Aguardando resposta',
         ]);
 
-        // Obtém o portfolio do artista para enviar a notificação
+        // Obtém o portfolio do artista 
         $portfolio = PortfolioArtista::with('usuario')->find($request->id_artista);
         
         if ($portfolio && $portfolio->usuario) {
