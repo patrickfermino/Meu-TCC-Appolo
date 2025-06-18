@@ -60,6 +60,7 @@ class UsuarioController extends Controller
             'documento' => 'required|string|unique:usuarios',
             'email' => 'required|email|unique:usuarios',
             'senha' => 'required|min:6',
+            'telefone' => 'nullable|string|max:18',
             'data_nasc' => 'required|date',
             'sexo_usuario' => 'required|integer',
          ], [

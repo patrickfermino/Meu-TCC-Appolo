@@ -20,7 +20,7 @@
 
         <div class="form-section"  id="formulario-login" >
             <h1 class="form-title">Cadastrar-se como solicitante</h1>
-            <form action="{{ route('usuarios.storeContratante') }}" method="POST">
+            <form id="form-cadastro" action="{{ route('usuarios.storeContratante') }}" method="POST">
                   @csrf
 
             <input type="text" name="nome" placeholder="Nome" required>
