@@ -47,10 +47,10 @@ class Usuario extends Authenticatable
     }
 
 
-    public function sexo()
-    {
-        return $this->belongsTo(SexoUsuario::class, 'sexo_usuario');
-    }
+ //   public function sexo()
+   // {
+  //      return $this->belongsTo(SexoUsuario::class, 'sexo_usuario');
+  //  }
 
     
     public function getAuthPassword()

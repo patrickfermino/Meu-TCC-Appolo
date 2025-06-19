@@ -12,15 +12,15 @@ class sexo_usuario extends Seeder
     public function run(): void
     {
         DB::table('sexo_usuario')->insert([
-            'nome' => 'masculino',
+            'nome' => 'Masculino',
         ]);
 
         DB::table('sexo_usuario')->insert([
-            'nome' => 'feminino',
+            'nome' => 'Feminino',
         ]);
 
         DB::table('sexo_usuario')->insert([
-            'nome' => 'nao_informar',
+            'nome' => 'Não informar',
         ]);
 
 

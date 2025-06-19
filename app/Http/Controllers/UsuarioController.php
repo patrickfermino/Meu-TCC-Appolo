@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\CategoriaArtistica;
+use App\Models\SexoUsuario;
 
 
 
@@ -92,8 +93,10 @@ class UsuarioController extends Controller
         $posts = $usuario->portfolioArtista->posts ?? collect();
         $categorias = CategoriaArtistica::all();
         $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
+
+         $generos = SexoUsuario::all();
     
-        return view('usuarios.perfil_publico', compact('usuario', 'categorias', 'categoriasSelecionadas'));
+        return view('usuarios.perfil_publico', compact('usuario', 'categorias', 'categoriasSelecionadas','generos'));
     }
 
 
@@ -110,9 +113,10 @@ class UsuarioController extends Controller
         $categorias = CategoriaArtistica::all();
         $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
 
+        $generos = SexoUsuario::all();
         
 
-            return view('usuarios.perfil_publico', compact('usuario', 'posts', 'categorias', 'categoriasSelecionadas', 'portfolio'));
+            return view('usuarios.perfil_publico', compact('usuario', 'posts', 'categorias', 'categoriasSelecionadas', 'portfolio' ,'generos'));
     
     }
 
@@ -124,8 +128,10 @@ class UsuarioController extends Controller
     
         $categorias = CategoriaArtistica::all();
         $categoriasSelecionadas = $usuario->categoriasArtisticas->pluck('id')->toArray();
+
+         $generos = SexoUsuario::all();
     
-        return view('usuarios.perfil_publico', compact('usuario', 'posts', 'categorias', 'categoriasSelecionadas'));
+        return view('usuarios.perfil_publico', compact('usuario', 'posts', 'categorias', 'categoriasSelecionadas','generos'));
     }
 
 
@@ -175,11 +181,13 @@ class UsuarioController extends Controller
         'endereco' => 'nullable|string|max:255',
         'senha' => 'nullable|string|min:8|confirmed',
         'foto_perfil' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+        'sexo_usuario' => 'required|integer|exists:sexo_usuario,id',
     ]);
 
     $usuario->nome = $request->nome;
     $usuario->telefone = $request->telefone;
     $usuario->cidade = $request->cidade;
+    $usuario->sexo_usuario = $request->sexo_usuario;
     $usuario->cep = $request->cep;
     $usuario->bairro = $request->bairro;
     $usuario->endereco = $request->endereco;

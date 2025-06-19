@@ -10,6 +10,22 @@
 <main>
 @include('Components.navbarbootstrap')
 
+
+
+@php
+    function formatarCep($cep) {
+        return preg_replace('/(\d{5})(\d{3})/', '$1-$2', $cep);
+    }
+
+    function formatarTelefone($tel) {
+        $tel = preg_replace('/\D/', '', $tel);
+        return (strlen($tel) === 11)
+            ? preg_replace('/(\d{2})(\d{5})(\d{4})/', '($1) $2-$3', $tel)
+            : preg_replace('/(\d{2})(\d{4})(\d{4})/', '($1) $2-$3', $tel);
+    }
+@endphp
+
+
 @if(session('success'))
   <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -115,12 +131,8 @@
 
           <p class="text-muted"><i class="bi bi-calendar"></i> {{ $usuario->idade }} anos </p>
           <p class="text-muted"><i class="bi bi-geo-alt"></i>  {{ $usuario->cidade ?? 'Localidade não definida' }}  </p>
-          <p><strong>Endereço:</strong> {{ $usuario->cep }}  , {{ $usuario->bairro }} , {{ $usuario->endereco }}</p>
-          <p class="text-muted">
-
-             <i class="bi bi-telephone" ></i>
-                       {{ $usuario->telefone }}
-                </p>
+          
+          <p class="text-muted"><i class="bi bi-telephone"></i> {{ formatarTelefone($usuario->telefone) }}</p>
                 
         
                @if($usuario->tipo_usuario == 2)
@@ -128,7 +140,7 @@
                        {{ $portfolio->descricao ?? 'Descrição do portfólio não disponível' }}
                 </p>
               
-             
+             <p><strong>Endereço:</strong> {{ formatarCep($usuario->cep) }} , {{ $usuario->bairro }} , {{ $usuario->endereco }}</p>
                 
                 <div class="social-icons my-3">
 

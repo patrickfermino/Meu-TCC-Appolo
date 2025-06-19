@@ -181,32 +181,58 @@ class PropostaContratoController extends Controller
         }
     }
 
+    
+
     public function lerTodas()
     {
         Notificacao::where('user_id', auth()->id())->update(['lida' => true]);
         return response()->json(['success' => true]);
     }
 
-    public function minhasPropostas()
-    {
-        $usuario = Auth::user();
-        $propostas = [];
+    public function minhasPropostas(Request $request)
+{
+    $usuario = Auth::user();
+    $status = $request->input('status');
+    $avaliadorId = $request->input('avaliador_id');
 
-        if ($usuario->tipo_usuario == 2) { // Artista
-            $portfolio = $usuario->portfolioArtista;
-            if ($portfolio) {
-                $propostas = PropostaContrato::where('id_artista', $portfolio->id)
-                    ->with(['usuarioAvaliador', 'artista.usuario'])
-                    ->latest()
-                    ->get();
+    $propostas = collect();
+
+    if ($usuario->tipo_usuario == 2) { // Artista
+        $portfolio = $usuario->portfolioArtista;
+        if ($portfolio) {
+            $query = PropostaContrato::where('id_artista', $portfolio->id)
+                ->with(['usuarioAvaliador', 'artista.usuario']);
+
+            if ($status) {
+                $query->where('status', $status);
             }
-        } else if ($usuario->tipo_usuario == 3) { // Contratante
-            $propostas = PropostaContrato::where('id_usuario_avaliador', $usuario->id)
-                ->with(['artista.usuario', 'usuarioAvaliador'])
-                ->latest()
-                ->get();
+
+            if ($avaliadorId) {
+                $query->where('id_usuario_avaliador', $avaliadorId);
+            }
+
+            $propostas = $query->latest()->get();
+        }
+    } elseif ($usuario->tipo_usuario == 3) { // Contratante
+        $query = PropostaContrato::where('id_usuario_avaliador', $usuario->id)
+            ->with(['artista.usuario', 'usuarioAvaliador']);
+
+        if ($status) {
+            $query->where('status', $status);
         }
 
-        return view('propostas.minhas_propostas', compact('propostas', 'usuario'));
+        $propostas = $query->latest()->get();
     }
+
+    // Lista de avaliadores distintos (para filtro)
+    $avaliadores = PropostaContrato::select('id_usuario_avaliador')
+        ->with('usuarioAvaliador')
+        ->distinct()
+        ->get()
+        ->pluck('usuarioAvaliador')
+        ->unique('id');
+
+    return view('propostas.minhas_propostas', compact('propostas', 'usuario', 'avaliadores'));
+}
+
 }

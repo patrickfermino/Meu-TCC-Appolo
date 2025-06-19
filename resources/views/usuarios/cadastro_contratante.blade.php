@@ -26,7 +26,7 @@
             <input type="text" name="nome" placeholder="Nome" required>
 
             <div class="gender-options">
-                <label><input type="radio" name="sexo_usuario" value="1" required> Masculino</label>
+                <label><input type="radio" name="sexo_usuario" value="1" required><h5> Masculino </h5></label>
                 <label><input type="radio" name="sexo_usuario" value="2"> Feminino</label>
                 <label><input type="radio" name="sexo_usuario" value="3"> Não informar</label>
             </div>

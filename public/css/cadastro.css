@@ -89,7 +89,7 @@ form input[type="password"] {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .submit-btn {

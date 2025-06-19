@@ -42,11 +42,46 @@
     <div class="container my-5">
         <h2 class="mb-4 botao_home" style="text-transform: uppercase;">Minhas Propostas</h2>
 
+
+        
+    {{-- Filtros --}}
+  <form method="GET" action="{{ route('propostas.minhas') }}" class="row g-3 mb-4">
+    <div class="col-md-4">
+        <label for="status" class="form-label">Status da Proposta</label>
+        <select name="status" id="status" class="form-select">
+            <option value="">Todos</option>
+            <option value="Aguardando resposta" {{ request('status') == 'Aguardando resposta' ? 'selected' : '' }}>Aguardando resposta</option>
+            <option value="Recusada" {{ request('status') == 'Recusada' ? 'selected' : '' }}>Recusada</option>
+            <option value="Aguardando execução" {{ request('status') == 'Aguardando execução' ? 'selected' : '' }}>Aguardando execução</option>
+            <option value="Finalizada" {{ request('status') == 'Finalizada' ? 'selected' : '' }}>Finalizada</option>
+        </select>
+    </div>
+
+    @if($usuario->tipo_usuario == 2)
+    <div class="col-md-4">
+        <label for="avaliador_id" class="form-label">Solicitante</label>
+        <select name="avaliador_id" id="avaliador_id" class="form-select">
+            <option value="">Todos</option>
+            @foreach($avaliadores as $avaliador)
+                <option value="{{ $avaliador->id }}" {{ request('avaliador_id') == $avaliador->id ? 'selected' : '' }}>
+                    {{ $avaliador->nome }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    @endif
+
+    
+</form>
+
+
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @elseif(session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
+
+
 
         @if($propostas->isEmpty())
             <p class="text-muted">Nenhuma proposta encontrada.</p>
@@ -107,10 +142,25 @@
     </div>
 
     <!-- Scripts -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function enviarResposta(propostaId, status) {
+           
+        document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        const selects = form.querySelectorAll('select');
+
+        selects.forEach(select => {
+            select.addEventListener('change', function () {
+                form.submit();
+            });
+        });
+    });
+       
+       
+       
+       function enviarResposta(propostaId, status) {
             const form = document.getElementById(`respostaForm${propostaId}`);
             const motivoInput = document.getElementById(`motivo${propostaId}`);
             const statusInput = document.getElementById(`status${propostaId}`);
@@ -142,6 +192,9 @@
                 });
             });
         });
+
+
+        
     </script>
 </body>
 </html>
