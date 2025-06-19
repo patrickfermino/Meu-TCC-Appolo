@@ -180,7 +180,7 @@
                         <div class="mb-3 text-center">
     <label for="foto_perfil" style="cursor: pointer;">
         <img id="previewFotoPerfil"
-            src="{{ Auth::user()->foto_perfil ? asset('storage/' . Auth::user()->foto_perfil) : asset('imgs/user.jpg') }}"
+            src="{{ Auth::user()->foto_perfil ? asset('storage/' . Auth::user()->foto_perfil) : asset('imgs/user.png') }}"
             class="rounded-circle shadow"
             alt="Foto de Perfil"
             style="width: 120px; height: 120px; object-fit: cover; border: 2px solid #ccc;"
@@ -216,7 +216,7 @@
             
             <div class="mb-3">
                             <label class="form-label">CEP</label>
-                            <input type="text" name="cep" class="form-control" value="{{  Auth::user()->cep }}" maxlength="8" inputmode="numeric">
+                            <input type="text" name="cep" onblur="buscarCEP(this.value)" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); }" class="form-control" value="{{  Auth::user()->cep }}" maxlength="8" inputmode="numeric">
                         </div>
 
                         <div class="mb-3">
@@ -417,6 +417,49 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+function buscarCEP(cep) {
+    // Remove tudo que não for número
+    // cep = cep.replace(/\D/g, '');
+
+    // if (cep.length !== 8) {
+    //     alert("CEP inválido. Digite 8 números.");
+    //     return;
+    // }
+
+    console.log(`https://viacep.com.br/ws/${cep}/json/`)
+
+    fetch(`https://viacep.com.br/ws/${cep}/json/`, { method: 'GET' })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro ao buscar o CEP.");
+            }
+            console.log(response.json())
+            return response.json();
+        })
+        .then(data => {
+            if (data.erro) {
+                alert("CEP não encontrado.");
+                return;
+            }
+
+            // Preenche os campos do formulário
+            const form = document.querySelector('#editOffcanvas form');
+            if (form) {
+                form.querySelector('input[name="cidade"]').value = data.localidade || '';
+                form.querySelector('input[name="bairro"]').value = data.bairro || '';
+                form.querySelector('input[name="endereco"]').value = data.logradouro || '';
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            console.error("sdawawdaw");
+            alert("Erro ao consultar o CEP.");
+        });
+        
+}
+
+
 </script>
 
 
