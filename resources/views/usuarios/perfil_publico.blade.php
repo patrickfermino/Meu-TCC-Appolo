@@ -117,8 +117,8 @@
 <section class="py-5">
     <div class="container" >
       <div class="row align-items-center">
-        <div class="col-md-3 text-center text-md-start mb-4 mb-md-0">
-          <img src="{{ $usuario->foto_perfil && file_exists(public_path('storage/' . $usuario->foto_perfil)) ? asset('storage/' . $usuario->foto_perfil) : asset('imgs/user.png') }}"  class="rounded-circle border border-4 border-tertiary shadow profile-img" alt="Perfil">
+        <div class="col-md-3 text-center text-md-start mb-4 mb-md-0 imagem_perfil">
+        <img  src="{{ $usuario->foto_perfil && file_exists(public_path('storage/' . $usuario->foto_perfil)) ? asset('storage/' . $usuario->foto_perfil) : asset('imgs/user.png') }}"  class="rounded-circle border border-4 border-tertiary shadow profile-img" alt="Perfil">
         </div>
         <div class="col-md-9">
           <h1 class="text-nome">{{ $usuario->nome }} </h1>
@@ -243,7 +243,7 @@
   <div class="container">
     <div class="row g-4">
   @foreach($posts as $post)
-        <div class="col-md-4">
+        <div class="col-md-4">  
           <div class="card shadow-sm">
             <div id="carouselPost{{ $post->id }}" class="carousel slide" data-bs-ride="carousel">
               <div class="carousel-inner">

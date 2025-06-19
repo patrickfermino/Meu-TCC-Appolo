@@ -28,6 +28,6 @@ class PortfolioArtista extends Model
 
     public function posts()
 {
-    return $this->hasMany(PostPortfolio::class, 'id_portfolio');
+    return $this->hasMany(PostPortfolio::class, 'id_portfolio')->orderBy('created_at', 'desc');
 }
 }
