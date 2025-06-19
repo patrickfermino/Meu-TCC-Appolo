@@ -17,107 +17,82 @@
         <div class="left-illustration">
             <img src="{{ asset('imgs/contratante.jpg') }}" alt="Ilustração Artista">
         </div>
+
         <div class="form-section"  id="formulario-login" >
             <h1 class="form-title">Cadastrar-se como solicitante</h1>
             <form action="{{ route('usuarios.storeContratante') }}" method="POST">
-                @csrf
+                  @csrf
 
-                <input type="text" name="nome" placeholder="Nome" required>
-                
-                <div class="gender-options">
-                    <label><input type="radio" name="sexo_usuario" value="1" required> Masculino</label>
-                    <label><input type="radio" name="sexo_usuario" value="2"> Feminino</label>
-                    <label><input type="radio" name="sexo_usuario" value="3"> Não informar</label>
-                </div>
+            <input type="text" name="nome" placeholder="Nome" required>
 
-                <input type="email" name="email" placeholder="Email" required>
-             
-                <input type="text" id="telefone" name="telefone" placeholder="Telefone" maxlength="15" inputmode="numeric" >
-                <input type="text" id="documento" name="documento" placeholder="CPF/CNPJ" maxlength="18" required inputmode="numeric" >
-                <input type="date" name="data_nasc" placeholder="Data de Nascimento" required>
+            <div class="gender-options">
+                <label><input type="radio" name="sexo_usuario" value="1" required> Masculino</label>
+                <label><input type="radio" name="sexo_usuario" value="2"> Feminino</label>
+                <label><input type="radio" name="sexo_usuario" value="3"> Não informar</label>
+            </div>
 
-                <input type="password" name="senha" placeholder="Senha" required>
-                <input type="password" name="senha_confirmation" placeholder="Confirmar senha" required>
+            <input type="email" name="email" placeholder="Email" required>
 
-                <button type="submit" class="submit-btn" onclick="onSalvar()">Criar conta</button>
+            <input type="text" id="telefone" name="telefone" placeholder="Telefone" maxlength="15" inputmode="numeric">
+            
+            <input type="text" id="documento" name="documento" placeholder="CPF/CNPJ" maxlength="18">
 
-                <p class="login-link">Já tem conta? <a href="{{ route('login') }}">Conecte-se</a></p>
-            </form>
-        </div>
-<script>
-  
-    const documentoInput = document.getElementById('documento');
-    const form = document.getElementById('form-cadastro');
+            <input type="date" name="data_nasc" placeholder="Data de Nascimento" required>
 
+            <input type="password" name="senha" placeholder="Senha" required>
+            <input type="password" name="senha_confirmation" placeholder="Confirmar senha" required>
 
- document.getElementById('telefone').addEventListener('input', (event) => {
-            const input = document.getElementById('telefone');
+            <button type="submit" class="submit-btn">Criar conta</button>
 
-            const opts = {
-                mask: [
-                    {
-                        mask: '(00) 00000-0000',
-                    }
-                ],
-            };
+            <p class="login-link">Já tem conta? <a href="{{ route('login') }}">Conecte-se</a></p>
+        </form>
+    </div>
 
-            IMask(input, opts).on('accept', () => {
-                
-            });
+    <script>
+        const form = document.getElementById('form-cadastro');
+        const documentoInput = document.getElementById('documento');
+        const telefoneInput = document.getElementById('telefone');
 
+     //imask telefone
+        const telefoneMask = IMask(telefoneInput, {
+            mask: '(00) 00000-0000'
         });
 
+        // Máscara CPF/CNPJ
+        documentoInput.addEventListener('input', function () {
+            let value = documentoInput.value.replace(/\D/g, '');
 
-//forata os dados para andar pro bakend
-         function onSalvar() {
-            const input = document.getElementById('telefone');
-            const valor = input.value
-                .replace("(", "")
-                .replace(")", "")
-                .replace(" ", "")
-                .replace("-", "");
+            if (value.length <= 11) {
+                documentoInput.value = value.replace(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/, function (_, p1, p2, p3, p4) {
+                    let result = '';
+                    if (p1) result += p1;
+                    if (p2) result += `.${p2}`;
+                    if (p3) result += `.${p3}`;
+                    if (p4) result += `-${p4}`;
+                    return result;
+                });
+            } else {
+                value = value.slice(0, 14);
+                documentoInput.value = value.replace(/(\d{0,2})(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,2})/, function (_, p1, p2, p3, p4, p5) {
+                    let result = '';
+                    if (p1) result += p1;
+                    if (p2) result += `.${p2}`;
+                    if (p3) result += `.${p3}`;
+                    if (p4) result += `/${p4}`;
+                    if (p5) result += `-${p5}`;
+                    return result;
+                });
+            }
+        });
 
-            console.log(">>>", valor);
-        }
-   
-    // Máscara de CPF/CNPJ
-    documentoInput.addEventListener('input', function () {
-        let value = documentoInput.value.replace(/\D/g, '');
+        // Limpa as máscaras antes de enviar o formulário
+        form.addEventListener('submit', function () {
+            documentoInput.value = documentoInput.value.replace(/\D/g, '');
+            telefoneInput.value = telefoneMask.unmaskedValue; // <-- valor limpo do IMask
+        });
+    </script>
+</main>
 
-        if (value.length <= 11) {
-            documentoInput.value = value.replace(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/, function (_, p1, p2, p3, p4) {
-                let result = '';
-                if (p1) result += p1;
-                if (p2) result += `.${p2}`;
-                if (p3) result += `.${p3}`;
-                if (p4) result += `-${p4}`;
-                return result;
-            });
-        } else {
-            value = value.slice(0, 14);
-            documentoInput.value = value.replace(/(\d{0,2})(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,2})/, function (_, p1, p2, p3, p4, p5) {
-                let result = '';
-                if (p1) result += p1;
-                if (p2) result += `.${p2}`;
-                if (p3) result += `.${p3}`;
-                if (p4) result += `/${p4}`;
-                if (p5) result += `-${p5}`;
-                return result;
-            });
-        }
-    });
-
-    // Limpa a máscara antes de enviar
-    form.addEventListener('submit', function () {
-        documentoInput.value = documentoInput.value.replace(/\D/g, '');
-        telefoneInput.value = telefoneInput.value.replace(/\D/g, '');
-    });
-</script>
-
-
-
-    </main>
-
-    @include('Components.footer')
+@include('Components.footer')
 
 </html>

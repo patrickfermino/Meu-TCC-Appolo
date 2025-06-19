@@ -47,9 +47,9 @@
   @endphp
 
 @if(auth()->check() && (auth()->user()->tipo_usuario == 2 || auth()->user()->tipo_usuario == 3))
-<li class="dropdown dropleft" style="list-style: none;" >
-    <a class="position-relative icon_nav "  href="#" id="notificacoesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="carregarNotificacoes()">
-        <i class="bi bi-bell fs-4" ></i>
+<li class="dropdown dropleft" style="list-style: none;">
+    <a class="position-relative icon_nav" href="#" id="notificacoesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="carregarNotificacoes()">
+        <i class="bi bi-bell fs-4"></i>
         @php
             $naoLidas = \App\Models\Notificacao::where('usuario_id', Auth::id())->where('lida', false)->count();
         @endphp
@@ -64,9 +64,11 @@
             $notificacoes = \App\Models\Notificacao::where('usuario_id', Auth::id())->latest()->take(5)->get();
         @endphp
         @forelse($notificacoes as $notificacao)
-            <li class="dropdown-item">{{ $notificacao->mensagem }}</li>
+            <a href="{{ route('propostas.minhas') }}" class="dropdown-item">
+                {{ $notificacao->mensagem }}
+            </a>
         @empty
-            <li class="dropdown-item text-muted">Sem notificações</li>
+            <span class="dropdown-item text-muted">Sem notificações</span>
         @endforelse
     </ul>
 </li>
@@ -341,64 +343,25 @@
 
     <hr>
 
-    <form id="respostaPropostaForm">
+    
         <div class="mb-3">
-            <label for="motivoResposta" class="form-label"> Informe abaixo mais detalhes sobre a prestação do serviço caso aceite ou o motivo caso recuse:</label>
-            <textarea class="form-control" id="motivoResposta" name="motivo" rows="3" required></textarea>
+            <h6> Para aceitar ou recusar as propostas de serviço acesse a página de minhas propostas clicando no botão abaixo </h6>
         </div>
 
         <input type="hidden" id="propostaId" name="proposta_id">
 
         <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-outline-custom me-2" onclick="responderProposta('recusada')">Recusar</button>
-            <button type="button" class="btn btn-primary-custom" onclick="responderProposta('aceita')">Aceitar</button>
+
+            <button type="button" class="btn btn-outline-custom me-2"  href="{{ route('propostas.minhas') }}"> Minhas Propostas </button>
+
         </div>
-    </form>
+   
 </div>
     </div>
   </div>
 </div>
-<script>
-  function responderProposta(status) {
-      const propostaId = document.getElementById('propostaId').value;
-      const motivo = document.getElementById('motivoResposta').value;
 
-      if (!motivo.trim()) {
-          alert("Por favor, informe o motivo.");
-          return;
-      }
 
-      fetch(`/responder-proposta/${propostaId}`, {
-          method: "POST",
-          headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-          },
-          body: JSON.stringify({
-              status: status,
-              motivo: motivo
-          })
-      })
-      .then(res => {
-          if (!res.ok) {
-              return res.json().then(json => Promise.reject(json));
-          }
-          return res.json();
-      })
-      .then(data => {
-          if (data.success) {
-              alert("Resposta registrada com sucesso.");
-              location.reload();
-          } else {
-              alert(data.mensagem || "Ocorreu um erro ao processar a resposta.");
-          }
-      })
-      .catch(error => {
-          console.error('Erro ao responder proposta:', error);
-          alert(error.mensagem || "Erro ao processar sua resposta.");
-      });
-  }
-</script>
 
 
 <script>
@@ -409,7 +372,7 @@ function carregarNotificacoes() {
             const lista = document.getElementById('listaNotificacoes');
             const contador = document.getElementById('contadorNotificacoes');
 
-            lista.innerHTML = ''; // Limpa notificações
+            lista.innerHTML = '';
 
             if (data.length === 0) {
                 lista.innerHTML = '<li class="dropdown-item text-muted">Nenhuma nova proposta</li>';
@@ -420,25 +383,19 @@ function carregarNotificacoes() {
             contador.innerText = data.length;
             contador.style.display = 'inline-block';
 
-
             data.forEach(notificacao => {
-    const item = document.createElement('li');
-    item.className = 'dropdown-item';
-    item.textContent = `${notificacao.proposta.usuario_avaliador.nome} lhe enviou uma proposta de trabalho`;
-    item.style.cursor = 'pointer';
+                const item = document.createElement('li');
+                item.className = 'dropdown-item';
+                item.textContent = `${notificacao.proposta.usuario_avaliador.nome} lhe enviou uma proposta de trabalho`;
+                item.style.cursor = 'pointer';
 
-    item.addEventListener('click', () => {
-    document.getElementById('propostaTitulo').innerText = notificacao.proposta.titulo;
-    document.getElementById('propostaAutor').innerText = notificacao.proposta.usuario_avaliador.nome;
-    document.getElementById('propostaDescricao').innerText = notificacao.proposta.descricao;
-    document.getElementById('propostaData').innerText = new Date(notificacao.proposta.data).toLocaleDateString('pt-BR');
-    document.getElementById('propostaId').value = notificacao.proposta.id;
+                // Redirecionar para a rota propostas.minhas
+                item.addEventListener('click', () => {
+                    window.location.href = "{{ route('propostas.minhas') }}";
+                });
 
-    new bootstrap.Modal(document.getElementById('modalPropostaNotificacao')).show();
-});
-
-    lista.appendChild(item);
-});
+                lista.appendChild(item);
+            });
         });
 }
 </script>

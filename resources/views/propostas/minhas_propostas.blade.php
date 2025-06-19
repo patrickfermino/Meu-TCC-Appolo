@@ -77,8 +77,8 @@
 
                 @if($usuario->tipo_usuario == 2 && $proposta->status === 'Aguardando resposta')
                     <!-- Modal de Resposta -->
-                    <div class="modal fade" id="responderModal{{ $proposta->id }}" tabindex="-1" aria-labelledby="responderModalLabel{{ $proposta->id }}" aria-hidden="true">
-                        <div class="modal-dialog">
+                    <div class="modal fade p-5 "  id="responderModal{{ $proposta->id }}" tabindex="-1" aria-labelledby="responderModalLabel{{ $proposta->id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="responderModalLabel{{ $proposta->id }}">Responder Proposta</h5>
@@ -88,7 +88,7 @@
                                     <form id="respostaForm{{ $proposta->id }}" action="{{ route('proposta.responder', $proposta->id) }}" method="POST">
                                         @csrf
                                         <div class="mb-3">
-                                            <label for="motivo{{ $proposta->id }}" class="form-label">Motivo da Resposta</label>
+                                            <label for="motivo{{ $proposta->id }}" class="form-label"> Informe abaixo a justificativa caso recuse o trabalho ou informações relevantes sobre a execução do trabalho caso aceite a proposta . </label>
                                             <textarea class="form-control" id="motivo{{ $proposta->id }}" name="motivo" rows="3"></textarea>
                                         </div>
                                         <input type="hidden" name="status" id="status{{ $proposta->id }}">
